@@ -57,19 +57,31 @@
 
 
 
-<meta name="description" content="12345function show()&amp;#123;	var a=b=c=d=5;&amp;#125;show();alert(a); //弹出a报错，显示undefined
-Q：为什么在函数中，只有变量a被声明为局部变量？因为赋值是从右向左结合；var a=b=c=d=5;等价于var a=(b=(c=(d=5)));,  其中只有a被声明了，b,c和d都是自动解析为全局变量了。">
+<meta name="description" content="闭包的概念有权访问另一个函数作用域中的变量的函数。
+如何实现闭包创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.
+闭包的特性
+函数内再嵌套函数.
+内部函数可以引用外层的参数和变量.
+参数和变量不会被垃圾回收机制回收.在另一个函数内部定义的函数会将包含函数的活动对象添加到它的作用域链中,因此在函数执行">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JS中同时声明多个变量的原理">
-<meta property="og:url" content="http://yoursite.com/2016/05/08/JS中同时声明多个变量的原理/index.html">
+<meta property="og:title" content="闭包">
+<meta property="og:url" content="http://yoursite.com/2016/05/08/闭包/index.html">
 <meta property="og:site_name" content="wkd's blog">
-<meta property="og:description" content="12345function show()&amp;#123;	var a=b=c=d=5;&amp;#125;show();alert(a); //弹出a报错，显示undefined
-Q：为什么在函数中，只有变量a被声明为局部变量？因为赋值是从右向左结合；var a=b=c=d=5;等价于var a=(b=(c=(d=5)));,  其中只有a被声明了，b,c和d都是自动解析为全局变量了。">
-<meta property="og:updated_time" content="2016-05-08T02:49:09.123Z">
+<meta property="og:description" content="闭包的概念有权访问另一个函数作用域中的变量的函数。
+如何实现闭包创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.
+闭包的特性
+函数内再嵌套函数.
+内部函数可以引用外层的参数和变量.
+参数和变量不会被垃圾回收机制回收.在另一个函数内部定义的函数会将包含函数的活动对象添加到它的作用域链中,因此在函数执行">
+<meta property="og:updated_time" content="2016-05-08T14:15:52.761Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JS中同时声明多个变量的原理">
-<meta name="twitter:description" content="12345function show()&amp;#123;	var a=b=c=d=5;&amp;#125;show();alert(a); //弹出a报错，显示undefined
-Q：为什么在函数中，只有变量a被声明为局部变量？因为赋值是从右向左结合；var a=b=c=d=5;等价于var a=(b=(c=(d=5)));,  其中只有a被声明了，b,c和d都是自动解析为全局变量了。">
+<meta name="twitter:title" content="闭包">
+<meta name="twitter:description" content="闭包的概念有权访问另一个函数作用域中的变量的函数。
+如何实现闭包创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.
+闭包的特性
+函数内再嵌套函数.
+内部函数可以引用外层的参数和变量.
+参数和变量不会被垃圾回收机制回收.在另一个函数内部定义的函数会将包含函数的活动对象添加到它的作用域链中,因此在函数执行">
 
 
 
@@ -87,7 +99,7 @@ Q：为什么在函数中，只有变量a被声明为局部变量？因为赋值
   };
 </script>
 
-  <title> JS中同时声明多个变量的原理 | wkd's blog </title>
+  <title> 闭包 | wkd's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -217,7 +229,7 @@ Q：为什么在函数中，只有变量a被声明为局部变量？因为赋值
             
             
               
-                JS中同时声明多个变量的原理
+                闭包
               
             
           </h1>
@@ -229,7 +241,7 @@ Q：为什么在函数中，只有变量a被声明为局部变量？因为赋值
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-08T10:28:27+08:00" content="2016-05-08">
+            <time itemprop="dateCreated" datetime="2016-05-08T21:52:36+08:00" content="2016-05-08">
               2016-05-08
             </time>
           </span>
@@ -255,8 +267,20 @@ Q：为什么在函数中，只有变量a被声明为局部变量？因为赋值
       
 
       
-        <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">show</span></span>()&#123;</span><br><span class="line">	var a=b=c=d=5;</span><br><span class="line">&#125;</span><br><span class="line">show();</span><br><span class="line">alert(a); //弹出a报错，显示undefined</span><br></pre></td></tr></table></figure>
-<h4 id="Q：为什么在函数中，只有变量a被声明为局部变量？"><a href="#Q：为什么在函数中，只有变量a被声明为局部变量？" class="headerlink" title="Q：为什么在函数中，只有变量a被声明为局部变量？"></a>Q：为什么在函数中，只有变量a被声明为局部变量？</h4><p>因为赋值是<strong>从右向左</strong>结合；<br><em>var a=b=c=d=5;</em>等价于<em>var a=(b=(c=(d=5)));</em>,  其中只有a被声明了，b,c和d都是自动解析为全局变量了。</p>
+        <h3 id="闭包的概念"><a href="#闭包的概念" class="headerlink" title="闭包的概念"></a>闭包的概念</h3><p>有权访问另一个函数作用域中的变量的函数。</p>
+<h3 id="如何实现闭包"><a href="#如何实现闭包" class="headerlink" title="如何实现闭包"></a>如何实现闭包</h3><p>创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.</p>
+<h3 id="闭包的特性"><a href="#闭包的特性" class="headerlink" title="闭包的特性"></a>闭包的特性</h3><ol>
+<li>函数内再嵌套函数.</li>
+<li>内部函数可以引用外层的参数和变量.</li>
+<li>参数和变量不会被垃圾回收机制回收.<br><em>在另一个函数内部定义的函数会将包含函数的活动对象添加到它的作用域链中,因此在函数执行完毕后,其活动对象也不会被销毁,因为其内含函数的作用域链仍然在引用这个活动对象.</em></li>
+</ol>
+<h3 id="闭包的缺点"><a href="#闭包的缺点" class="headerlink" title="闭包的缺点"></a>闭包的缺点</h3><ol>
+<li>过度使用闭包会导致内存占用过多</li>
+<li>闭包只能取得循环中变量的最后一个值<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">createFunctions</span></span>() &#123;</span><br><span class="line">    var result = new Array();</span><br><span class="line">    <span class="keyword">for</span> (var i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">        result[i] = <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">            <span class="built_in">return</span> i;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> result; //返回的result数组里全部为10</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>每个函数的作用域链中都保存着父函数的活动对象，所以它们引用的都是同一个变量i。</strong></p>
+<p>可以通过创建另一个匿名函数来让闭包的行为符合预期。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">createFunctions</span></span>() &#123;</span><br><span class="line">    var result = new Array();</span><br><span class="line">    <span class="keyword">for</span> (var i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">        result[i] = <span class="keyword">function</span> (num) &#123;</span><br><span class="line">            <span class="built_in">return</span> <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">                <span class="built_in">return</span> num; //通过闭包维持住局部变量num的存在</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -274,17 +298,13 @@ Q：为什么在函数中，只有变量a被声明为局部变量？因为赋值
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/02/history.back(-1)和history.go(-1)的区别/" rel="next" title="history.back(-1)和history.go(-1)的区别">
-                <i class="fa fa-chevron-left"></i> history.back(-1)和history.go(-1)的区别
+              <a href="/2016/05/08/JS中同时声明多个变量的原理/" rel="next" title="JS中同时声明多个变量的原理">
+                <i class="fa fa-chevron-left"></i> JS中同时声明多个变量的原理
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/08/闭包/" rel="prev" title="闭包">
-                闭包 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -395,7 +415,7 @@ Q：为什么在函数中，只有变量a被声明为局部变量？因为赋值
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Q：为什么在函数中，只有变量a被声明为局部变量？"><span class="nav-number">1.</span> <span class="nav-text">Q：为什么在函数中，只有变量a被声明为局部变量？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的概念"><span class="nav-number">1.</span> <span class="nav-text">闭包的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何实现闭包"><span class="nav-number">2.</span> <span class="nav-text">如何实现闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的特性"><span class="nav-number">3.</span> <span class="nav-text">闭包的特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的缺点"><span class="nav-number">4.</span> <span class="nav-text">闭包的缺点</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

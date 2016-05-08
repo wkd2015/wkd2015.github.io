@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="HTML," />
+  <meta name="keywords" content="JavaScript," />
 
 
 
@@ -57,16 +57,19 @@
 
 
 
-<meta name="description" content="history.back(-1)直接返回当前页的上一页，数据全部消息消失，是个新页面；history.go(-1)也是返回当前页的上一页，不过表单里的数据全部还在。123history.back(0) 刷新history.back(1) 前进history.back(-1) 后退">
+<meta name="description" content="12345function show()&amp;#123;	var a=b=c=d=5;&amp;#125;show();alert(a); //弹出a报错，显示undefined
+Q：为什么在函数中，只有变量a被声明为局部变量？因为赋值是从右向左结合；var a=b=c=d=5;等价于var a=(b=(c=(d=5)));,  其中只有a被声明了，b,c和d都是自动解析为全局变量了。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="history.back(-1)和history.go(-1)的区别">
-<meta property="og:url" content="http://yoursite.com/2016/05/02/history.back(-1)和history.go(-1)的区别/index.html">
+<meta property="og:title" content="JS中同时声明多个变量的原理">
+<meta property="og:url" content="http://yoursite.com/2016/05/08/JS中同时声明多个变量的原理/index.html">
 <meta property="og:site_name" content="wkd's blog">
-<meta property="og:description" content="history.back(-1)直接返回当前页的上一页，数据全部消息消失，是个新页面；history.go(-1)也是返回当前页的上一页，不过表单里的数据全部还在。123history.back(0) 刷新history.back(1) 前进history.back(-1) 后退">
-<meta property="og:updated_time" content="2016-05-02T15:27:38.124Z">
+<meta property="og:description" content="12345function show()&amp;#123;	var a=b=c=d=5;&amp;#125;show();alert(a); //弹出a报错，显示undefined
+Q：为什么在函数中，只有变量a被声明为局部变量？因为赋值是从右向左结合；var a=b=c=d=5;等价于var a=(b=(c=(d=5)));,  其中只有a被声明了，b,c和d都是自动解析为全局变量了。">
+<meta property="og:updated_time" content="2016-05-08T02:49:09.123Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="history.back(-1)和history.go(-1)的区别">
-<meta name="twitter:description" content="history.back(-1)直接返回当前页的上一页，数据全部消息消失，是个新页面；history.go(-1)也是返回当前页的上一页，不过表单里的数据全部还在。123history.back(0) 刷新history.back(1) 前进history.back(-1) 后退">
+<meta name="twitter:title" content="JS中同时声明多个变量的原理">
+<meta name="twitter:description" content="12345function show()&amp;#123;	var a=b=c=d=5;&amp;#125;show();alert(a); //弹出a报错，显示undefined
+Q：为什么在函数中，只有变量a被声明为局部变量？因为赋值是从右向左结合；var a=b=c=d=5;等价于var a=(b=(c=(d=5)));,  其中只有a被声明了，b,c和d都是自动解析为全局变量了。">
 
 
 
@@ -84,7 +87,7 @@
   };
 </script>
 
-  <title> history.back(-1)和history.go(-1)的区别 | wkd's blog </title>
+  <title> JS中同时声明多个变量的原理 | wkd's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -214,7 +217,7 @@
             
             
               
-                history.back(-1)和history.go(-1)的区别
+                JS中同时声明多个变量的原理
               
             
           </h1>
@@ -226,8 +229,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-02T23:22:22+08:00" content="2016-05-02">
-              2016-05-02
+            <time itemprop="dateCreated" datetime="2016-05-08T10:28:27+08:00" content="2016-05-08">
+              2016-05-08
             </time>
           </span>
 
@@ -252,7 +255,8 @@
       
 
       
-        <p>history.back(-1)直接返回当前页的上一页，数据全部消息消失，是个新页面；<br>history.go(-1)也是返回当前页的上一页，不过表单里的数据全部还在。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">history.back(0) 刷新</span><br><span class="line">history.back(1) 前进</span><br><span class="line">history.back(-1) 后退</span><br></pre></td></tr></table></figure></p>
+        <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">show</span></span>()&#123;</span><br><span class="line">	var a=b=c=d=5;</span><br><span class="line">&#125;</span><br><span class="line">show();</span><br><span class="line">alert(a); //弹出a报错，显示undefined</span><br></pre></td></tr></table></figure>
+<h4 id="Q：为什么在函数中，只有变量a被声明为局部变量？"><a href="#Q：为什么在函数中，只有变量a被声明为局部变量？" class="headerlink" title="Q：为什么在函数中，只有变量a被声明为局部变量？"></a>Q：为什么在函数中，只有变量a被声明为局部变量？</h4><p>因为赋值是<strong>从右向左</strong>结合；<br><em>var a=b=c=d=5;</em>等价于<em>var a=(b=(c=(d=5)));</em>,  其中只有a被声明了，b,c和d都是自动解析为全局变量了。</p>
 
       
     </div>
@@ -261,7 +265,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/HTML/" rel="tag">#HTML</a>
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
           
         </div>
       
@@ -270,17 +274,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/02/29/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2016/05/02/history.back(-1)和history.go(-1)的区别/" rel="next" title="history.back(-1)和history.go(-1)的区别">
+                <i class="fa fa-chevron-left"></i> history.back(-1)和history.go(-1)的区别
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/08/JS中同时声明多个变量的原理/" rel="prev" title="JS中同时声明多个变量的原理">
-                JS中同时声明多个变量的原理 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -391,7 +391,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Q：为什么在函数中，只有变量a被声明为局部变量？"><span class="nav-number">1.</span> <span class="nav-text">Q：为什么在函数中，只有变量a被声明为局部变量？</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

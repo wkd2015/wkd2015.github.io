@@ -90,16 +90,25 @@
 
 
 
-<meta name="description" content="参考：《你不知道的JavaScript》">
+<meta name="description" content="参考：《你不知道的JavaScript》
+
+作用域相关1. 编译原理1.1 传统语言的编译流程
+分词/词法分析（Tokenizing/Lexing）这个过程会将由字符组成的字符串分解成（对编程语言来说）有意义的代码块，这些代码块被称为词法单元（token）。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="作用域学习笔记">
 <meta property="og:url" content="http://yoursite.com/2016/06/13/你不知道的JavaScript笔记之作用域/index.html">
 <meta property="og:site_name" content="Wkd's Blog">
-<meta property="og:description" content="参考：《你不知道的JavaScript》">
-<meta property="og:updated_time" content="2016-06-13T11:47:03.453Z">
+<meta property="og:description" content="参考：《你不知道的JavaScript》
+
+作用域相关1. 编译原理1.1 传统语言的编译流程
+分词/词法分析（Tokenizing/Lexing）这个过程会将由字符组成的字符串分解成（对编程语言来说）有意义的代码块，这些代码块被称为词法单元（token）。">
+<meta property="og:updated_time" content="2016-06-15T11:56:50.761Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="作用域学习笔记">
-<meta name="twitter:description" content="参考：《你不知道的JavaScript》">
+<meta name="twitter:description" content="参考：《你不知道的JavaScript》
+
+作用域相关1. 编译原理1.1 传统语言的编译流程
+分词/词法分析（Tokenizing/Lexing）这个过程会将由字符组成的字符串分解成（对编程语言来说）有意义的代码块，这些代码块被称为词法单元（token）。">
 
 
 
@@ -297,9 +306,10 @@
         <blockquote>
 <p>参考：《你不知道的JavaScript》</p>
 </blockquote>
-<a id="more"></a>
 <h3 id="作用域相关"><a href="#作用域相关" class="headerlink" title="作用域相关"></a>作用域相关</h3><h4 id="1-编译原理"><a href="#1-编译原理" class="headerlink" title="1. 编译原理"></a>1. 编译原理</h4><h5 id="1-1-传统语言的编译流程"><a href="#1-1-传统语言的编译流程" class="headerlink" title="1.1 传统语言的编译流程"></a>1.1 传统语言的编译流程</h5><ol>
-<li><p>分词/词法分析（Tokenizing/Lexing）<br>这个过程会将由字符组成的字符串分解成（对编程语言来说）有意义的代码块，这些代码块被称为词法单元（token）。<br>例如，考虑程序var a = 2;。这段程序通常会被分解成为下面这些词法单元：var、a、=、2 、;。空格是否会被当作词法单元，取决于空格在这门语言中是否具有意义。</p>
+<li><p>分词/词法分析（Tokenizing/Lexing）<br>这个过程会将由字符组成的字符串分解成（对编程语言来说）有意义的代码块，这些代码块被称为词法单元（token）。</p>
+<a id="more"></a>
+<p>例如，考虑程序var a = 2;。这段程序通常会被分解成为下面这些词法单元：var、a、=、2 、;。空格是否会被当作词法单元，取决于空格在这门语言中是否具有意义。</p>
 <blockquote>
 <p>分词（tokenizing）和词法分析（Lexing）之间的区别是非常微妙、晦涩的，主要差异在于词法单元的识别是通过有状态还是无状态的方式进行的。简单来说，如果词法单元生成器在判断a是一个独立的词法单元还是其他词法单元的一部分时，调用的是有状态的解析规则，那么这个过程就被称为词法分析。</p>
 </blockquote>
@@ -471,6 +481,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2016/06/15/CSS隐藏元素的几种思路/" rel="prev" title="CSS隐藏元素的几种思路">
+                CSS隐藏元素的几种思路 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -541,7 +555,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -551,7 +565,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="JavaScript," />
+  <meta name="keywords" content="CSS," />
 
 
 
@@ -90,19 +90,25 @@
 
 
 
-<meta name="description" content="闭包的概念有权访问另一个函数作用域中的变量的函数。
-如何实现闭包创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.">
+<meta name="description" content="实现思路:
+box-sizing属性将border和padding计算入width之内,消除两者对于盒子宽度计算的影响.
+@media媒体查询根据查询不同浏览器宽度调用不同样式
+calc方法动态计算div的width">
 <meta property="og:type" content="article">
-<meta property="og:title" content="闭包">
-<meta property="og:url" content="http://yoursite.com/2016/05/08/闭包/index.html">
+<meta property="og:title" content="IFE栅格化布局任务相关知识">
+<meta property="og:url" content="http://yoursite.com/2016/06/15/IFE栅格化布局任务相关知识/index.html">
 <meta property="og:site_name" content="Wkd's Blog">
-<meta property="og:description" content="闭包的概念有权访问另一个函数作用域中的变量的函数。
-如何实现闭包创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.">
-<meta property="og:updated_time" content="2016-05-08T14:19:44.854Z">
+<meta property="og:description" content="实现思路:
+box-sizing属性将border和padding计算入width之内,消除两者对于盒子宽度计算的影响.
+@media媒体查询根据查询不同浏览器宽度调用不同样式
+calc方法动态计算div的width">
+<meta property="og:updated_time" content="2016-06-15T12:10:32.601Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="闭包">
-<meta name="twitter:description" content="闭包的概念有权访问另一个函数作用域中的变量的函数。
-如何实现闭包创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.">
+<meta name="twitter:title" content="IFE栅格化布局任务相关知识">
+<meta name="twitter:description" content="实现思路:
+box-sizing属性将border和padding计算入width之内,消除两者对于盒子宽度计算的影响.
+@media媒体查询根据查询不同浏览器宽度调用不同样式
+calc方法动态计算div的width">
 
 
 
@@ -120,7 +126,7 @@
   };
 </script>
 
-  <title> 闭包 | Wkd's Blog </title>
+  <title> IFE栅格化布局任务相关知识 | Wkd's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -250,7 +256,7 @@
             
             
               
-                闭包
+                IFE栅格化布局任务相关知识
               
             
           </h1>
@@ -262,8 +268,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-08T21:52:36+08:00" content="2016-05-08">
-              2016-05-08
+            <time itemprop="dateCreated" datetime="2016-06-15T19:57:35+08:00" content="2016-06-15">
+              2016-06-15
             </time>
           </span>
 
@@ -273,8 +279,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/05/08/闭包/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/08/闭包/" itemprop="commentsCount"></span>
+                <a href="/2016/06/15/IFE栅格化布局任务相关知识/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/15/IFE栅格化布局任务相关知识/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -297,20 +303,58 @@
       
 
       
-        <h3 id="闭包的概念"><a href="#闭包的概念" class="headerlink" title="闭包的概念"></a>闭包的概念</h3><p>有权访问另一个函数作用域中的变量的函数。</p>
-<h3 id="如何实现闭包"><a href="#如何实现闭包" class="headerlink" title="如何实现闭包"></a>如何实现闭包</h3><p>创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.<br><a id="more"></a></p>
-<h3 id="闭包的特性"><a href="#闭包的特性" class="headerlink" title="闭包的特性"></a>闭包的特性</h3><ol>
-<li>函数内再嵌套函数.</li>
-<li>内部函数可以引用外层的参数和变量.</li>
-<li>参数和变量不会被垃圾回收机制回收.<br><em>在另一个函数内部定义的函数会将包含函数的活动对象添加到它的作用域链中,因此在函数执行完毕后,其活动对象也不会被销毁,因为其内含函数的作用域链仍然在引用这个活动对象.</em></li>
-</ol>
-<h3 id="闭包的缺点"><a href="#闭包的缺点" class="headerlink" title="闭包的缺点"></a>闭包的缺点</h3><ol>
-<li>过度使用闭包会导致内存占用过多</li>
-<li>闭包只能取得循环中变量的最后一个值<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">createFunctions</span></span>() &#123;</span><br><span class="line">    var result = new Array();</span><br><span class="line">    <span class="keyword">for</span> (var i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">        result[i] = <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">            <span class="built_in">return</span> i;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> result; //返回的result数组里全部为10</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h4 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路:"></a>实现思路:</h4><ol>
+<li>box-sizing属性<br>将border和padding计算入width之内,消除两者对于盒子宽度计算的影响.</li>
+<li>@media媒体查询<br>根据查询不同浏览器宽度调用不同样式</li>
+<li>calc方法<br>动态计算div的width<a id="more"></a>
 </li>
 </ol>
-<p><strong>每个函数的作用域链中都保存着父函数的活动对象，所以它们引用的都是同一个变量i。</strong></p>
-<p>可以通过创建另一个匿名函数来让闭包的行为符合预期。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">createFunctions</span></span>() &#123;</span><br><span class="line">    var result = new Array();</span><br><span class="line">    <span class="keyword">for</span> (var i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">        result[i] = <span class="keyword">function</span> (num) &#123;</span><br><span class="line">            <span class="built_in">return</span> <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">                <span class="built_in">return</span> num; //通过闭包维持住局部变量num的存在</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="1-box-sizing"><a href="#1-box-sizing" class="headerlink" title="1. box-sizing"></a>1. box-sizing</h4><blockquote>
+<p>box-sizing更符合人们对于”盒子”这个概念的认知,也省去了对于border以及padding的计算,让有边框的盒子可以正常使用百分比宽度</p>
+</blockquote>
+<h5 id="box-sizing的值"><a href="#box-sizing的值" class="headerlink" title="box-sizing的值:"></a>box-sizing的值:</h5><ol>
+<li>content-box(<em>默认</em>): border和padding不计算入width之内</li>
+<li>padding-box(<em>部分浏览器不支持</em>): padding计算入width内</li>
+<li>border-box: border和padding计算入width之内</li>
+</ol>
+<blockquote>
+<p><a href="http://wkd2015.github.io/Demo/demos/pages/study/boxsizingTest.html" target="_blank" rel="external">Demo地址</a></p>
+</blockquote>
+<hr>
+<h4 id="2-media媒体查询"><a href="#2-media媒体查询" class="headerlink" title="2. @media媒体查询"></a>2. @media媒体查询</h4><blockquote>
+<p>媒体查询包含了一个媒体类型和至少一个使用如宽度、高度和颜色等媒体属性来限制样式表范围的表达式。CSS3加入的媒体查询使得无需修改内容便可以使样式应用于某些特定的设备范围。</p>
+</blockquote>
+<p>@media规则可以让你在同一张样式表中使用不同的样式来适应不同的媒介</p>
+<h5 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- link元素中的CSS媒体查询 --&gt; </span><br><span class="line">&lt;link rel=<span class="string">"stylesheet"</span> media=<span class="string">"(max-width: 800px)"</span> href=<span class="string">"example.css"</span> /&gt; </span><br><span class="line">&lt;!-- 样式表中的CSS媒体查询 --&gt; </span><br><span class="line">&lt;style&gt; </span><br><span class="line">@media (max-width: 600px) &#123; </span><br><span class="line">    .facet_sidebar &#123; </span><br><span class="line">        display: none; </span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>当媒体查询为真时,相关的样式就会按照正常的级联规则应用.即使媒体查询结果为假,link查询的样式表仍会被下载.在不使用not和only操作符时,媒体类型是可选的,默认为all</p>
+<h5 id="逻辑操作符"><a href="#逻辑操作符" class="headerlink" title="逻辑操作符"></a>逻辑操作符</h5><ol>
+<li>and操作符:<br>把多个媒体属性组合起来,合并到同一条媒体查询中.只有当每个属性都为真时,这条查询的结果才为真</li>
+<li>not操作符:<br>用来对一条媒体查询的结果进行取反</li>
+<li>only操作符<br>表示仅在媒体查询匹配成功的情况下应用指定样式.可以通过它让选中的样式在老式浏览器中不被应用</li>
+</ol>
+<blockquote>
+<ol>
+<li>若使用了not或only操作符,必须明确指定一个媒体类型</li>
+<li>也可以将多个媒体查询以逗号分隔放在一起.只要其中任何一个为真,整个媒体语句就返回真.相当于or操作符</li>
+</ol>
+</blockquote>
+<hr>
+<h4 id="3-calc-方法"><a href="#3-calc-方法" class="headerlink" title="3. calc()方法"></a>3. calc()方法</h4><blockquote>
+<p>calc是英文单词calculate(计算)的缩写,是css3的一个新增的功能,用来指定元素的长度.可以使用calc()给元素的border、margin、pading、font-size和width等属性设置动态值</p>
+</blockquote>
+<p>calc()能让你给元素的做计算，你可以给一个div元素，使用百分比、em、px和rem单位值计算出其宽度或者高度</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.elm &#123;</span><br><span class="line">  width: calc(expression);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="calc-的运算规则"><a href="#calc-的运算规则" class="headerlink" title="calc()的运算规则"></a>calc()的运算规则</h5><ol>
+<li>使用“+”、“-”、“*” 和 “/”四则运算；</li>
+<li>可以使用百分比、px、em、rem等单位；</li>
+<li>可以混合使用各种单位进行计算；</li>
+<li>表达式中有“+”和“-”时，其前后必须要有空格，如”widht: calc(12%+5em)”这种没有空格的写法是错误的；</li>
+<li>表达式中有“*”和“/”时，其前后可以没有空格，但建议留有空格。</li>
+</ol>
+<blockquote>
+<p>calc()方法转载自w3cplus,更详细内容见<a href="http://www.w3cplus.com/css3/how-to-use-css3-calc-function.html" target="_blank" rel="external">链接</a></p>
+</blockquote>
 
       
     </div>
@@ -332,7 +376,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+            <a href="/tags/CSS/" rel="tag">#CSS</a>
           
         </div>
       
@@ -341,17 +385,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/08/JS中同时声明多个变量的原理/" rel="next" title="JS中同时声明多个变量的原理">
-                <i class="fa fa-chevron-left"></i> JS中同时声明多个变量的原理
+              <a href="/2016/06/15/CSS隐藏元素的几种思路/" rel="next" title="CSS隐藏元素的几种思路">
+                <i class="fa fa-chevron-left"></i> CSS隐藏元素的几种思路
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/26/delegate/" rel="prev" title="jQuery事件绑定方法delegate()">
-                jQuery事件绑定方法delegate() <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -377,8 +417,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/05/08/闭包/"
-           data-title="闭包" data-url="http://yoursite.com/2016/05/08/闭包/">
+      <div class="ds-thread" data-thread-key="2016/06/15/IFE栅格化布局任务相关知识/"
+           data-title="IFE栅格化布局任务相关知识" data-url="http://yoursite.com/2016/06/15/IFE栅格化布局任务相关知识/">
       </div>
     
   </div>
@@ -482,7 +522,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的概念"><span class="nav-number">1.</span> <span class="nav-text">闭包的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何实现闭包"><span class="nav-number">2.</span> <span class="nav-text">如何实现闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的特性"><span class="nav-number">3.</span> <span class="nav-text">闭包的特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的缺点"><span class="nav-number">4.</span> <span class="nav-text">闭包的缺点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#实现思路"><span class="nav-number">1.</span> <span class="nav-text">实现思路:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-box-sizing"><span class="nav-number">2.</span> <span class="nav-text">1. box-sizing</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#box-sizing的值"><span class="nav-number">2.1.</span> <span class="nav-text">box-sizing的值:</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-media媒体查询"><span class="nav-number">3.</span> <span class="nav-text">2. @media媒体查询</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#语法"><span class="nav-number">3.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#逻辑操作符"><span class="nav-number">3.2.</span> <span class="nav-text">逻辑操作符</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-calc-方法"><span class="nav-number">4.</span> <span class="nav-text">3. calc()方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#calc-的运算规则"><span class="nav-number">4.1.</span> <span class="nav-text">calc()的运算规则</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

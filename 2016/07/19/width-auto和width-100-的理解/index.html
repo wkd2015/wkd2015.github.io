@@ -96,7 +96,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/07/19/width-auto和width-100-的理解/index.html">
 <meta property="og:site_name" content="Wkd's Blog">
 <meta property="og:description" content="之前对于width属性下auto和100%的差异一直有误解,认为auto情况下容器的宽度是由内容撑开的,而100%是由父元素的宽度决定的.在写了一些样例测试后,对这两者的区别和实现有了新的认识">
-<meta property="og:updated_time" content="2016-07-19T15:45:39.969Z">
+<meta property="og:updated_time" content="2016-07-19T15:48:20.881Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于width:auto和width:100%差异的新理解">
 <meta name="twitter:description" content="之前对于width属性下auto和100%的差异一直有误解,认为auto情况下容器的宽度是由内容撑开的,而100%是由父元素的宽度决定的.在写了一些样例测试后,对这两者的区别和实现有了新的认识">
@@ -295,12 +295,13 @@
 
       
         <blockquote>
-<p>之前对于width属性下auto和100%的差异一直有误解,认为auto情况下容器的宽度是由内容撑开的,而100%是由父元素的宽度决定的.在写了一些样例测试后,对这两者的区别和实现有了新的认识<br><a id="more"></a></p>
+<p>之前对于width属性下auto和100%的差异一直有误解,认为auto情况下容器的宽度是由内容撑开的,而100%是由父元素的宽度决定的.在写了一些样例测试后,对这两者的区别和实现有了新的认识</p>
+</blockquote>
+<a id="more"></a>
 <h4 id="width-100"><a href="#width-100" class="headerlink" title="width:100%"></a>width:100%</h4><ol>
 <li>宽度:<br>参照<strong>定义了宽度属性的第一个父级元素</strong>决定,通过<strong>计算父级元素盒模型内的content宽度决定自身的content宽度</strong>,<strong>border、padding、margin的值不会被计算在内</strong>,因此会有溢出父元素的情况出现</li>
 <li>float情况:<br>在float情况下,区块脱离文档流,但是width仍然根据父级元素的width属性决定</li>
 </ol>
-</blockquote>
 <h4 id="width-auto"><a href="#width-auto" class="headerlink" title="width:auto"></a>width:auto</h4><ol>
 <li>宽度:<br>区块设置为width:auto之后，会根据<strong>父元素的width，该元素本身的margin，该元素本身的border，该元素本身的padding</strong>来一起决定该元素的width。 换句话说，<em><strong>该元素的width + padding <em> 2+border </em> 2 + margin * 2 = 父元素的width</strong></em>。</li>
 <li>float情况:<br>在float情况下,区块脱离文档流,width:auto的根据父元素自适应效果失效,宽度由内容撑开</li>

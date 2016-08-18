@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="JavaScript," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -90,19 +90,15 @@
 
 
 
-<meta name="description" content="闭包的概念有权访问另一个函数作用域中的变量的函数。
-如何实现闭包创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.">
-<meta property="og:type" content="article">
-<meta property="og:title" content="闭包">
-<meta property="og:url" content="http://yoursite.com/2016/05/08/闭包/index.html">
+<meta name="description" content="You got a dream, you gotta protect it.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Wkd's Blog">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="Wkd's Blog">
-<meta property="og:description" content="闭包的概念有权访问另一个函数作用域中的变量的函数。
-如何实现闭包创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.">
-<meta property="og:updated_time" content="2016-05-08T14:19:44.854Z">
+<meta property="og:description" content="You got a dream, you gotta protect it.">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="闭包">
-<meta name="twitter:description" content="闭包的概念有权访问另一个函数作用域中的变量的函数。
-如何实现闭包创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.">
+<meta name="twitter:title" content="Wkd's Blog">
+<meta name="twitter:description" content="You got a dream, you gotta protect it.">
 
 
 
@@ -120,7 +116,7 @@
   };
 </script>
 
-  <title> 闭包 | Wkd's Blog </title>
+  <title> Wkd's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -141,7 +137,9 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -228,9 +226,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
   
@@ -250,7 +248,10 @@
             
             
               
-                闭包
+                
+                <a class="post-title-link" href="/2016/05/02/history.back(-1)和history.go(-1)的区别/" itemprop="url">
+                  history.back(-1)和history.go(-1)的区别
+                </a>
               
             
           </h1>
@@ -262,8 +263,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-08T21:52:36+08:00" content="2016-05-08">
-              2016-05-08
+            <time itemprop="dateCreated" datetime="2016-05-02T23:22:22+08:00" content="2016-05-02">
+              2016-05-02
             </time>
           </span>
 
@@ -273,8 +274,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/05/08/闭包/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/08/闭包/" itemprop="commentsCount"></span>
+                <a href="/2016/05/02/history.back(-1)和history.go(-1)的区别/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/02/history.back(-1)和history.go(-1)的区别/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -297,77 +298,44 @@
       
 
       
-        <h3 id="闭包的概念"><a href="#闭包的概念" class="headerlink" title="闭包的概念"></a>闭包的概念</h3><p>有权访问另一个函数作用域中的变量的函数。</p>
-<h3 id="如何实现闭包"><a href="#如何实现闭包" class="headerlink" title="如何实现闭包"></a>如何实现闭包</h3><p>创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.<br><a id="more"></a></p>
-<h3 id="闭包的特性"><a href="#闭包的特性" class="headerlink" title="闭包的特性"></a>闭包的特性</h3><ol>
-<li>函数内再嵌套函数.</li>
-<li>内部函数可以引用外层的参数和变量.</li>
-<li>参数和变量不会被垃圾回收机制回收.<br><em>在另一个函数内部定义的函数会将包含函数的活动对象添加到它的作用域链中,因此在函数执行完毕后,其活动对象也不会被销毁,因为其内含函数的作用域链仍然在引用这个活动对象.</em></li>
-</ol>
-<h3 id="闭包的缺点"><a href="#闭包的缺点" class="headerlink" title="闭包的缺点"></a>闭包的缺点</h3><ol>
-<li>过度使用闭包会导致内存占用过多</li>
-<li>闭包只能取得循环中变量的最后一个值<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">createFunctions</span></span>() &#123;</span><br><span class="line">    var result = new Array();</span><br><span class="line">    <span class="keyword">for</span> (var i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">        result[i] = <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">            <span class="built_in">return</span> i;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> result; //返回的result数组里全部为10</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><strong>每个函数的作用域链中都保存着父函数的活动对象，所以它们引用的都是同一个变量i。</strong></p>
-<p>可以通过创建另一个匿名函数来让闭包的行为符合预期。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">createFunctions</span></span>() &#123;</span><br><span class="line">    var result = new Array();</span><br><span class="line">    <span class="keyword">for</span> (var i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">        result[i] = <span class="keyword">function</span> (num) &#123;</span><br><span class="line">            <span class="built_in">return</span> <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">                <span class="built_in">return</span> num; //通过闭包维持住局部变量num的存在</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+        
+          
+            <p>history.back(-1)直接返回当前页的上一页，数据全部消息消失，是个新页面；<br>history.go(-1)也是返回当前页的上一页，不过表单里的数据全部还在。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">history.back(0) 刷新</span><br><span class="line">history.back(1) 前进</span><br><span class="line">history.back(-1) 后退</span><br></pre></td></tr></table></figure></p>
 
-      
-    </div>
-
-    <div>
-      
+          
         
       
     </div>
 
     <div>
       
-        
+    </div>
 
+    <div>
       
     </div>
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
-          
-        </div>
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/05/08/JS中同时声明多个变量的原理/" rel="next" title="JS中同时声明多个变量的原理">
-                <i class="fa fa-chevron-left"></i> JS中同时声明多个变量的原理
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/26/delegate/" rel="prev" title="jQuery事件绑定方法delegate()">
-                jQuery事件绑定方法delegate() <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
 
 
           </div>
@@ -375,14 +343,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-      <div class="ds-thread" data-thread-key="2016/05/08/闭包/"
-           data-title="闭包" data-url="http://yoursite.com/2016/05/08/闭包/">
-      </div>
-    
-  </div>
-
 
         </div>
         
@@ -402,17 +362,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/ico.jpg"
@@ -475,17 +426,6 @@
 
       </section>
 
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的概念"><span class="nav-number">1.</span> <span class="nav-text">闭包的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何实现闭包"><span class="nav-number">2.</span> <span class="nav-text">如何实现闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的特性"><span class="nav-number">3.</span> <span class="nav-text">闭包的特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的缺点"><span class="nav-number">4.</span> <span class="nav-text">闭包的缺点</span></a></li></ol></div>
-            
-          </div>
-        </section>
       
 
     </div>
@@ -589,10 +529,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
 
   
 

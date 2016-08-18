@@ -90,19 +90,23 @@
 
 
 
-<meta name="description" content="闭包的概念有权访问另一个函数作用域中的变量的函数。
-如何实现闭包创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.">
+<meta name="description" content="1.问题
+blur事件和click事件各自的触发条件会导致本次绑定事件的冲突发生">
 <meta property="og:type" content="article">
-<meta property="og:title" content="闭包">
-<meta property="og:url" content="http://yoursite.com/2016/05/08/闭包/index.html">
+<meta property="og:title" content="blur和click事件的冲突问题">
+<meta property="og:url" content="http://yoursite.com/2016/08/10/blur和click事件的冲突问题/index.html">
 <meta property="og:site_name" content="Wkd's Blog">
-<meta property="og:description" content="闭包的概念有权访问另一个函数作用域中的变量的函数。
-如何实现闭包创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.">
-<meta property="og:updated_time" content="2016-05-08T14:19:44.854Z">
+<meta property="og:description" content="1.问题
+blur事件和click事件各自的触发条件会导致本次绑定事件的冲突发生">
+<meta property="og:image" content="https://raw.githubusercontent.com/wkd2015/pics/master/list.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wkd2015/pics/master/after.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wkd2015/pics/master/before.jpg">
+<meta property="og:updated_time" content="2016-08-18T15:42:17.726Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="闭包">
-<meta name="twitter:description" content="闭包的概念有权访问另一个函数作用域中的变量的函数。
-如何实现闭包创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.">
+<meta name="twitter:title" content="blur和click事件的冲突问题">
+<meta name="twitter:description" content="1.问题
+blur事件和click事件各自的触发条件会导致本次绑定事件的冲突发生">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wkd2015/pics/master/list.jpg">
 
 
 
@@ -120,7 +124,7 @@
   };
 </script>
 
-  <title> 闭包 | Wkd's Blog </title>
+  <title> blur和click事件的冲突问题 | Wkd's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -250,7 +254,7 @@
             
             
               
-                闭包
+                blur和click事件的冲突问题
               
             
           </h1>
@@ -262,8 +266,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-08T21:52:36+08:00" content="2016-05-08">
-              2016-05-08
+            <time itemprop="dateCreated" datetime="2016-08-10T23:26:02+08:00" content="2016-08-10">
+              2016-08-10
             </time>
           </span>
 
@@ -273,8 +277,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/05/08/闭包/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/08/闭包/" itemprop="commentsCount"></span>
+                <a href="/2016/08/10/blur和click事件的冲突问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/10/blur和click事件的冲突问题/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -297,20 +301,20 @@
       
 
       
-        <h3 id="闭包的概念"><a href="#闭包的概念" class="headerlink" title="闭包的概念"></a>闭包的概念</h3><p>有权访问另一个函数作用域中的变量的函数。</p>
-<h3 id="如何实现闭包"><a href="#如何实现闭包" class="headerlink" title="如何实现闭包"></a>如何实现闭包</h3><p>创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.<br><a id="more"></a></p>
-<h3 id="闭包的特性"><a href="#闭包的特性" class="headerlink" title="闭包的特性"></a>闭包的特性</h3><ol>
-<li>函数内再嵌套函数.</li>
-<li>内部函数可以引用外层的参数和变量.</li>
-<li>参数和变量不会被垃圾回收机制回收.<br><em>在另一个函数内部定义的函数会将包含函数的活动对象添加到它的作用域链中,因此在函数执行完毕后,其活动对象也不会被销毁,因为其内含函数的作用域链仍然在引用这个活动对象.</em></li>
+        <h5 id="1-问题"><a href="#1-问题" class="headerlink" title="1.问题"></a>1.问题</h5><blockquote>
+<p>blur事件和click事件各自的触发条件会导致本次绑定事件的冲突发生</p>
+</blockquote>
+<a id="more"></a>
+<p><img src="https://raw.githubusercontent.com/wkd2015/pics/master/list.jpg" alt="输入框元素"></p>
+<p>在上图的每个input元素上绑定了blur和click事件处理程序.</p>
+<ol>
+<li>input-click:当input被点击时,输入框获得焦点,下方出现对应操作按钮<br><img src="https://raw.githubusercontent.com/wkd2015/pics/master/after.jpg" alt="输入框元素"></li>
+<li>input-blur: 当input失去焦点时,input的值恢复到修改前的内容<br><img src="https://raw.githubusercontent.com/wkd2015/pics/master/before.jpg" alt="输入框元素"></li>
+<li>按钮各自绑定了click事件</li>
 </ol>
-<h3 id="闭包的缺点"><a href="#闭包的缺点" class="headerlink" title="闭包的缺点"></a>闭包的缺点</h3><ol>
-<li>过度使用闭包会导致内存占用过多</li>
-<li>闭包只能取得循环中变量的最后一个值<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">createFunctions</span></span>() &#123;</span><br><span class="line">    var result = new Array();</span><br><span class="line">    <span class="keyword">for</span> (var i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">        result[i] = <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">            <span class="built_in">return</span> i;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> result; //返回的result数组里全部为10</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><strong>每个函数的作用域链中都保存着父函数的活动对象，所以它们引用的都是同一个变量i。</strong></p>
-<p>可以通过创建另一个匿名函数来让闭包的行为符合预期。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">createFunctions</span></span>() &#123;</span><br><span class="line">    var result = new Array();</span><br><span class="line">    <span class="keyword">for</span> (var i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">        result[i] = <span class="keyword">function</span> (num) &#123;</span><br><span class="line">            <span class="built_in">return</span> <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">                <span class="built_in">return</span> num; //通过闭包维持住局部变量num的存在</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>问题正出在按钮的click动作上,当按钮click时,值恢复到修改之前,导致传递出去的值也是修改前的.</p>
+<h5 id="2-原因"><a href="#2-原因" class="headerlink" title="2.原因"></a>2.原因</h5><p>click时间的触发条件是<strong>一次点击</strong>,一次点击包括:<strong>鼠标点下,鼠标松开</strong>,在点下时,input就已经失去焦点,导致blur事件触发.</p>
+<h5 id="3-解决"><a href="#3-解决" class="headerlink" title="3.解决"></a>3.解决</h5><p>各按钮绑定事件换为mousedown,而且测试发现<strong>mousedown事件在有输入框获得焦点的情况下，它的默认动作会触发输入框的失去焦点事件</strong>。如果清除默认动作(preventDefault())，那么输入框就不会失去焦点。</p>
 
       
     </div>
@@ -341,17 +345,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/08/JS中同时声明多个变量的原理/" rel="next" title="JS中同时声明多个变量的原理">
-                <i class="fa fa-chevron-left"></i> JS中同时声明多个变量的原理
+              <a href="/2016/08/10/gulpfile-js的优化/" rel="next" title="项目gulp中js编译任务的优化">
+                <i class="fa fa-chevron-left"></i> 项目gulp中js编译任务的优化
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/26/delegate/" rel="prev" title="jQuery事件绑定方法delegate()">
-                jQuery事件绑定方法delegate() <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -377,8 +377,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/05/08/闭包/"
-           data-title="闭包" data-url="http://yoursite.com/2016/05/08/闭包/">
+      <div class="ds-thread" data-thread-key="2016/08/10/blur和click事件的冲突问题/"
+           data-title="blur和click事件的冲突问题" data-url="http://yoursite.com/2016/08/10/blur和click事件的冲突问题/">
       </div>
     
   </div>
@@ -482,7 +482,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的概念"><span class="nav-number">1.</span> <span class="nav-text">闭包的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何实现闭包"><span class="nav-number">2.</span> <span class="nav-text">如何实现闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的特性"><span class="nav-number">3.</span> <span class="nav-text">闭包的特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的缺点"><span class="nav-number">4.</span> <span class="nav-text">闭包的缺点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-问题"><span class="nav-number">1.</span> <span class="nav-text">1.问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-原因"><span class="nav-number">2.</span> <span class="nav-text">2.原因</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-解决"><span class="nav-number">3.</span> <span class="nav-text">3.解决</span></a></li></ol></div>
             
           </div>
         </section>

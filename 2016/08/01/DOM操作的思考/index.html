@@ -1,0 +1,672 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Satisfy:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,React.js," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在做外店商品页面的二期优化时,添加下拉菜单子项部分需要操作DOM,先用的是createElement创建后逐个添加,后面想到看到过DOM多次操作会影响性能,为此查了下相关资料并做记录备忘">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DOM操作的性能问题">
+<meta property="og:url" content="http://yoursite.com/2016/08/01/DOM操作的思考/index.html">
+<meta property="og:site_name" content="Wkd's Blog">
+<meta property="og:description" content="在做外店商品页面的二期优化时,添加下拉菜单子项部分需要操作DOM,先用的是createElement创建后逐个添加,后面想到看到过DOM多次操作会影响性能,为此查了下相关资料并做记录备忘">
+<meta property="og:updated_time" content="2016-08-18T15:42:11.656Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DOM操作的性能问题">
+<meta name="twitter:description" content="在做外店商品页面的二期优化时,添加下拉菜单子项部分需要操作DOM,先用的是createElement创建后逐个添加,后面想到看到过DOM多次操作会影响性能,为此查了下相关资料并做记录备忘">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> DOM操作的性能问题 | Wkd's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Wkd's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Keep Moving!</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                DOM操作的性能问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-01T23:24:57+08:00" content="2016-08-01">
+              2016-08-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/01/DOM操作的思考/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/01/DOM操作的思考/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>在做外店商品页面的二期优化时,添加下拉菜单子项部分需要操作DOM,先用的是createElement创建后逐个添加,后面想到看到过DOM多次操作会影响性能,为此查了下相关资料并做记录备忘</p>
+</blockquote>
+<a id="more"></a>
+<h5 id="1-DOM操作为什么拉低性能"><a href="#1-DOM操作为什么拉低性能" class="headerlink" title="1.DOM操作为什么拉低性能"></a>1.DOM操作为什么拉低性能</h5><p>DOM对象本身也是一个js对象,因此,拉低性能的部分并不是这个对象本身,而是之后触发的浏览器行为(布局,重绘等).</p>
+<blockquote>
+<p>一个div元素的第一层属性:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var div = document.createElement(<span class="string">'div'</span>);</span><br><span class="line">var str = <span class="string">""</span></span><br><span class="line"><span class="keyword">for</span>(var key <span class="keyword">in</span> div)&#123;</span><br><span class="line">  str = str + key + <span class="string">"  "</span>;</span><br><span class="line">&#125;</span><br><span class="line">console.log(str);</span><br><span class="line">/-----------------</span><br><span class="line">align  title  lang  translate  dir  dataset  hidden  tabIndex  accessKey  draggable  spellcheck  contentEditable  isContentEditable  offsetParent  offsetTop  offsetLeft  offsetWidth  offsetHeight  style  innerText  outerText  webkitdropzone  onabort  onblur  oncancel  oncanplay  oncanplaythrough  onchange  onclick  onclose  oncontextmenu  oncuechange  ondblclick  ondrag  ondragend  ondragenter  ondragleave  ondragover  ondragstart  ondrop  ondurationchange  onemptied  onended  onerror  onfocus  oninput  oninvalid  onkeydown  onkeypress  onkeyup  onload  onloadeddata  onloadedmetadata  onloadstart  onmousedown  onmouseenter  onmouseleave  onmousemove  onmouseout  onmouseover  onmouseup  onmousewheel  onpause  onplay  onplaying  onprogress  onratechange  onreset  onresize  onscroll  onseeked  onseeking  onselect  onshow  onstalled  onsubmit  onsuspend  ontimeupdate  ontoggle  onvolumechange  onwaiting  click  focus  blur  namespaceURI  prefix  <span class="built_in">local</span>Name  tagName  id  className  classList  attributes  innerHTML  outerHTML  shadowRoot  scrollTop  scrollLeft  scrollWidth  scrollHeight  clientTop  clientLeft  clientWidth  clientHeight  onbeforecopy  onbeforecut  onbeforepaste  oncopy  oncut  onpaste  onsearch  onselectstart  onwheel  onwebkitfullscreenchange  onwebkitfullscreenerror  previousElementSibling  nextElementSibling  children  firstElementChild  lastElementChild  childElementCount  hasAttributes  getAttribute  getAttributeNS  <span class="built_in">set</span>Attribute  <span class="built_in">set</span>AttributeNS  removeAttribute  removeAttributeNS  hasAttribute  hasAttributeNS  getAttributeNode  getAttributeNodeNS  <span class="built_in">set</span>AttributeNode  <span class="built_in">set</span>AttributeNodeNS  removeAttributeNode  closest  matches  webkitMatchesSelector  getElementsByTagName  getElementsByTagNameNS  getElementsByClassName  insertAdjacentElement  insertAdjacentText  insertAdjacentHTML  createShadowRoot  getDestinationInsertionPoints  requestPointerLock  getClientRects  getBoundingClientRect  scrollIntoView  scrollIntoViewIfNeeded  animate  remove  webkitRequestFullScreen  webkitRequestFullscreen  querySelector  querySelectorAll  ELEMENT_NODE  ATTRIBUTE_NODE  TEXT_NODE  CDATA_SECTION_NODE  ENTITY_REFERENCE_NODE  ENTITY_NODE  PROCESSING_INSTRUCTION_NODE  COMMENT_NODE  DOCUMENT_NODE  DOCUMENT_TYPE_NODE  DOCUMENT_FRAGMENT_NODE  NOTATION_NODE  DOCUMENT_POSITION_DISCONNECTED  DOCUMENT_POSITION_PRECEDING  DOCUMENT_POSITION_FOLLOWING  DOCUMENT_POSITION_CONTAINS  DOCUMENT_POSITION_CONTAINED_BY  DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC  nodeType  nodeName  baseURI  isConnected  ownerDocument  parentNode  parentElement  childNodes  firstChild  lastChild  previousSibling  nextSibling  nodeValue  textContent  hasChildNodes  normalize  <span class="built_in">clone</span>Node  isEqualNode  isSameNode  compareDocumentPosition  contains  lookupPrefix  lookupNamespaceURI  isDefaultNamespace  insertBefore  appendChild  replaceChild  removeChild  addEventListener  removeEventListener  dispatchEvent</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<ol>
+<li><p>浏览器如何呈现页面</p>
+<ol>
+<li>解析HTML,生成DOM树</li>
+<li>解析各种样式,结合DOM树生成Render树</li>
+<li>对Render树各节点计算布局信息</li>
+<li><p>根据Render树,利用浏览器的UI层进行绘制</p>
+<blockquote>
+<p>DOM树和Render树并非一一对应,display:none就不会出现在Render树上</p>
+<p>在这个过程中,最耗费时间的就是<strong>绘制</strong>和<strong>布局</strong></p>
+</blockquote>
+</li>
+</ol>
+</li>
+</ol>
+<h5 id="2-什么情况下会触发重新布局"><a href="#2-什么情况下会触发重新布局" class="headerlink" title="2. 什么情况下会触发重新布局"></a>2. 什么情况下会触发重新布局</h5><p>js脚本执行时,DOM是不会更新的,对DOM的修改会被暂存在一个队列中,在当前js的执行上下文完成执行后,会根据这个队列中的修改,进行一次重新布局;但有时会希望立刻获得最新的DOM节点信息,浏览器不得不提前执行布局,这是DOM性能问题的主要原因.</p>
+<ul>
+<li>以下操作会导致浏览器重新布局:<ul>
+<li>通过js获取需要计算的DOM属性</li>
+<li>添加或删除DOM元素</li>
+<li>resize浏览器窗口大小</li>
+<li>改变字体</li>
+<li>css伪类的激活，比如:hover</li>
+<li>通过js修改DOM元素样式且该样式涉及到尺寸的改变</li>
+</ul>
+</li>
+</ul>
+<p>多次操作DOM的代码:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$.each(req.entry,<span class="keyword">function</span> (i,item) &#123;</span><br><span class="line">    $(<span class="string">"&lt;option&gt;&lt;/option&gt;"</span>)</span><br><span class="line">        .val(item[<span class="string">"id"</span>])</span><br><span class="line">        .text(item[<span class="string">"name"</span>])</span><br><span class="line">        .appendTo($(<span class="string">"#actCategories"</span>));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>上面代码部分涉及多次添加DOM元素,导致页面多次操作DOM,十分影响性能</p>
+</blockquote>
+<p>改进后的代码:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">for</span> (var i = 0;i &lt; req.entry.length;i++)&#123;</span><br><span class="line">        html += <span class="string">'&lt;option value="'</span> + req.entry[i].id + <span class="string">'"&gt;'</span> + req.entry[i].name + <span class="string">'&lt;/option&gt;'</span></span><br><span class="line">    &#125;</span><br><span class="line">    $(<span class="string">"#actCategories"</span>).html(html);</span><br><span class="line">```    </span><br><span class="line">    </span><br><span class="line">&gt; 该解决方法是通过字符串在js执行中拼接完成后插入到父元素中,只执行一次DOM操作,思路是**在JS里完成操作,页面更新后直接全部渲染这部分内容,不必手动操作DOM**,模板引擎渲染页面和表格利用的就是这种原理</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">##### 3. 关于Virtual DOM</span></span><br><span class="line"></span><br><span class="line">&gt;上面改进部分的解决方案也有很多问题,最主要的是在视图和状态绑定的MVVM模式下,每次一个小小的状态变更都会重新构造整个DOM树,而且input和textarea等会失去自己的焦点,对于局部的小视图更新,上面的方法没有问题,但大型视图或很多局部视图要更新时则不可取.</span><br><span class="line"></span><br><span class="line">js表示的ul的DOM对象:</span><br><span class="line">``` bash</span><br><span class="line">var element = &#123;</span><br><span class="line">    tagName: <span class="string">'ul'</span>,</span><br><span class="line">    props: &#123;id: <span class="string">'list'</span>&#125;,</span><br><span class="line">    children: [</span><br><span class="line">        &#123;tagName: <span class="string">'li'</span>, props: &#123;class: <span class="string">'item'</span>&#125;, children: [<span class="string">"Item 1"</span>]&#125;, </span><br><span class="line">        &#123;tagName: <span class="string">'li'</span>,props: &#123;class: <span class="string">'item'</span>&#125;,children: [<span class="string">"Item 2"</span>]&#125;, </span><br><span class="line">        &#123;tagName: <span class="string">'li'</span>, props: &#123;class: <span class="string">'item'</span>&#125;, children: [<span class="string">"Item 3"</span>]&#125;,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line">//对应的HTML</span><br><span class="line">&lt;ul id=<span class="string">'list'</span>&gt; </span><br><span class="line">    &lt;li class=<span class="string">'item'</span>&gt;Item 1&lt;/li&gt; </span><br><span class="line">    &lt;li class=<span class="string">'item'</span>&gt;Item 2&lt;/li&gt; </span><br><span class="line">    &lt;li class=<span class="string">'item'</span>&gt;Item 3&lt;/li&gt; </span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure></p>
+<p>Visual DOM算法的步骤:</p>
+<ol>
+<li>用 JavaScript 对象结构表示 DOM 树的结构；然后用这个树构建一个真正的 DOM 树，插到文档当中</li>
+<li>当状态变更的时候，重新构造一棵新的对象树。然后用新的树和旧的树进行比较，记录两棵树差异</li>
+<li>把2所记录的差异应用到步骤1所构建的真正的DOM树上，视图就更新了</li>
+</ol>
+<p>Virtual DOM 本质上就是在 JS 和 DOM 之间做了一个缓存。可以类比 CPU 和硬盘，既然硬盘这么慢，我们就在它们之间加个缓存：既然 DOM 这么慢，我们就在它们 JS 和 DOM 之间加个缓存。CPU（JS）只操作内存（Virtual DOM），最后的时候再把变更写入硬盘（DOM）。<strong>视图的结构确实是整个全新渲染了，但是最后操作DOM的时候确实只变更有不同的地方。</strong></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/React-js/" rel="tag">#React.js</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/19/width-auto和width-100-的理解/" rel="next" title="关于width:auto和width:100%差异的新理解">
+                <i class="fa fa-chevron-left"></i> 关于width:auto和width:100%差异的新理解
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/10/gulpfile-js的优化/" rel="prev" title="项目gulp中js编译任务的优化">
+                项目gulp中js编译任务的优化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/01/DOM操作的思考/"
+           data-title="DOM操作的性能问题" data-url="http://yoursite.com/2016/08/01/DOM操作的思考/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/ico.jpg"
+               alt="wkd" />
+          <p class="site-author-name" itemprop="name">wkd</p>
+          <p class="site-description motion-element" itemprop="description">You got a dream, you gotta protect it.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wkd2015" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://wkd2015.github.io/Demo/" target="_blank" title="Demo">
+                  
+                    <i class="fa fa-fw fa-file"></i>
+                  
+                  Demo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-DOM操作为什么拉低性能"><span class="nav-number">1.</span> <span class="nav-text">1.DOM操作为什么拉低性能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-什么情况下会触发重新布局"><span class="nav-number">2.</span> <span class="nav-text">2. 什么情况下会触发重新布局</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wkd</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wkd2015"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

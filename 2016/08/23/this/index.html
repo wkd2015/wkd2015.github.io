@@ -1,0 +1,702 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Satisfy:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="关于thisthis提供了一种更优雅的方式来隐式”传递”一个对象引用,因此可以将API设计得更加简洁并且易于复用.
+this常见的误解:
+
+指向自身
+指向函数的作用域
+this在任何情况下都不指向函数的词法作用域。在JavaScript内部，作用域确实和对象类似，可见的标识符都是它的属性。但是作用域“对象”无法通过JavaScript代码访问，它存在于JavaScript引擎内部。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="this机制的学习思考">
+<meta property="og:url" content="http://yoursite.com/2016/08/23/this/index.html">
+<meta property="og:site_name" content="Wkd's Blog">
+<meta property="og:description" content="关于thisthis提供了一种更优雅的方式来隐式”传递”一个对象引用,因此可以将API设计得更加简洁并且易于复用.
+this常见的误解:
+
+指向自身
+指向函数的作用域
+this在任何情况下都不指向函数的词法作用域。在JavaScript内部，作用域确实和对象类似，可见的标识符都是它的属性。但是作用域“对象”无法通过JavaScript代码访问，它存在于JavaScript引擎内部。">
+<meta property="og:updated_time" content="2016-08-26T07:51:21.436Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="this机制的学习思考">
+<meta name="twitter:description" content="关于thisthis提供了一种更优雅的方式来隐式”传递”一个对象引用,因此可以将API设计得更加简洁并且易于复用.
+this常见的误解:
+
+指向自身
+指向函数的作用域
+this在任何情况下都不指向函数的词法作用域。在JavaScript内部，作用域确实和对象类似，可见的标识符都是它的属性。但是作用域“对象”无法通过JavaScript代码访问，它存在于JavaScript引擎内部。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> this机制的学习思考 | Wkd's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Wkd's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Keep Moving!</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                this机制的学习思考
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-23T15:48:03+08:00" content="2016-08-23">
+              2016-08-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/23/this/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/23/this/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="关于this"><a href="#关于this" class="headerlink" title="关于this"></a>关于this</h5><p>this提供了一种更优雅的方式来隐式”传递”一个对象引用,因此可以将API设计得更加简洁并且易于复用.</p>
+<p>this常见的误解:</p>
+<ol>
+<li>指向自身</li>
+<li>指向函数的作用域<ol>
+<li>this在任何情况下都不指向函数的词法作用域。在JavaScript内部，作用域确实和对象类似，可见的标识符都是它的属性。但是作用域“对象”无法通过JavaScript代码访问，它存在于JavaScript引擎内部。</li>
+</ol>
+</li>
+</ol>
+<a id="more"></a>
+<p>this的机制:</p>
+<ol>
+<li>this是在运行时进行绑定的,并不是在编写时绑定,它的上下文取决于函数调用时的各种条件.this的绑定和函数声明的位置没有任何关系,只取决于函数的调用方式.</li>
+<li>当一个函数被调用时，会创建一个活动记录（有时候也称为执行上下文）。这个记录会包含函数在哪里被调用（调用栈）、函数的调用方法、传入的参数等信息。this就是记录的其中一个属性，会在函数执行的过程中用到。</li>
+</ol>
+<hr>
+<h5 id="this解析"><a href="#this解析" class="headerlink" title="this解析"></a>this解析</h5><h6 id="调用位置-函数在代码中被调用的位置-而不是声明位置"><a href="#调用位置-函数在代码中被调用的位置-而不是声明位置" class="headerlink" title="调用位置:函数在代码中被调用的位置(而不是声明位置)"></a>调用位置:函数在代码中被调用的位置(而不是声明位置)</h6><ol>
+<li>调用栈:为了到达当前执行位置所调用的所有函数.<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">baz</span></span>() &#123;</span><br><span class="line">    // 当前调用栈是：baz</span><br><span class="line">    // 因此，当前调用位置是全局作用域</span><br><span class="line">    console.log( <span class="string">"baz"</span> );</span><br><span class="line">    bar(); // &lt;-- bar的调用位置</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">bar</span></span>() &#123;</span><br><span class="line">    // 当前调用栈是baz -&gt; bar</span><br><span class="line">    // 因此，当前调用位置在baz中</span><br><span class="line">    console.log( <span class="string">"bar"</span> );</span><br><span class="line">    foo(); // &lt;-- foo的调用位置</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">foo</span></span>() &#123;debugger;</span><br><span class="line">    // 当前调用栈是baz -&gt; bar -&gt; foo</span><br><span class="line">    // 因此当前调用位置在bar中</span><br><span class="line">       console.log( <span class="string">"foo"</span> );</span><br><span class="line">&#125;</span><br><span class="line">baz(); // &lt;-- baz的调用位置</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h6 id="绑定规则"><a href="#绑定规则" class="headerlink" title="绑定规则"></a>绑定规则</h6><ol>
+<li><p>默认绑定<br>独立函数调用</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">foo</span></span>() &#123;</span><br><span class="line">    console.log(this.a);</span><br><span class="line">&#125;</span><br><span class="line">var a = 2;</span><br><span class="line">foo();  // 2</span><br></pre></td></tr></table></figure>
+<p> 直接使用不带任何修饰的函数引用进行调用的,会进行默认绑定.</p>
+</li>
+<li><p>隐式绑定<br>调用位置是否有上下文对象,或者说是否被某个对象拥有或包含.</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">foo</span></span>() &#123; </span><br><span class="line">    console.log( this.a );</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123; </span><br><span class="line">    a: 2,</span><br><span class="line">    foo: foo </span><br><span class="line">&#125;;</span><br><span class="line">obj.foo(); // 2</span><br></pre></td></tr></table></figure>
+<p> <em>当函数引用有上下文对象时,隐式绑定规则会把函数调用中的this绑定到这个上下文对象.</em></p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">foo</span></span>() &#123; </span><br><span class="line">    console.log( this.a );</span><br><span class="line">&#125;</span><br><span class="line">var obj2 = &#123; </span><br><span class="line">    a: 42,</span><br><span class="line">    foo: foo </span><br><span class="line">&#125;;</span><br><span class="line">var obj1 = &#123; </span><br><span class="line">    a: 2,</span><br><span class="line">    obj2: obj2 </span><br><span class="line">&#125;;</span><br><span class="line">obj1.obj2.foo(); // 42</span><br></pre></td></tr></table></figure>
+<p> <em>另外对象属性引用链中只有最顶层或最后一层影响调用位置</em><br><strong>隐式丢失问题</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">foo</span></span>() &#123; </span><br><span class="line">    console.log( this.a );</span><br><span class="line">&#125;</span><br><span class="line">var obj = &#123; </span><br><span class="line">    a: 2,</span><br><span class="line">    foo: foo </span><br><span class="line">&#125;;</span><br><span class="line">var bar = obj.foo; // 函数别名！</span><br><span class="line">var a = <span class="string">"oops, global"</span>; // a是全局对象的属性</span><br><span class="line">bar(); // <span class="string">"oops, global</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><em>虽然bar是obj.foo的引用,但实际上其引用的是foo本身,因此此时的bar是不带修饰的函数调用,因此应用默认绑定.</em><br><em>回调函数失去this值绑定也是一样的原因,func(fn)中fn其实是赋值给了函数的参数,因此结果和此例一样</em></p>
+<ol>
+<li><p>显式绑定<br>函数的call()和apply()方法,第一个参数是一个对象,将这个对象绑定到this.</p>
+</li>
+<li><p>new绑定<br>new操作符进行构造函数调用时的操作流程:</p>
+<ol>
+<li>创建一个全新的对象</li>
+<li>这个新对象会被执行[[原型]]连接</li>
+<li>这个新对象会绑定到函数调用的this</li>
+<li><p>如果函数返回没有其它对象,那么new表达式中的函数调用会自动返回这个新对象.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> foo(a) &#123; </span><br><span class="line">    this.a = a;</span><br><span class="line">&#125; </span><br><span class="line">var bar = new foo(2);</span><br><span class="line">console.log( bar.a ); // 2</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+<p>使用new来调用foo(..)时，我们会构造一个新对象并把它绑定到foo(..)调用中的this上.</p>
+<hr>
+<h5 id="优先级问题"><a href="#优先级问题" class="headerlink" title="优先级问题"></a>优先级问题</h5><ol>
+<li>函数是否在new中调用（new绑定）？如果是的话this绑定的是新创建的对象。</li>
+<li>函数是否通过call、apply（显式绑定）或者硬绑定调用？如果是的话，this绑定的是指定的对象。</li>
+<li>函数是否在某个上下文对象中调用（隐式绑定）？如果是的话，this绑定的是那个上下文对象。</li>
+<li>如果都不是的话，使用默认绑定。如果在严格模式下，就绑定到undefined，否则绑定到全局对象。</li>
+</ol>
+<hr>
+<h5 id="绑定例外问题"><a href="#绑定例外问题" class="headerlink" title="绑定例外问题"></a>绑定例外问题</h5><ol>
+<li>把null或undefined作为绑定对象传入call或者apply,此时实际绑定的是默认规则(全局对象).<blockquote>
+<p>这种方法主要是用apply展开数组并传入函数.但是如果这个函数确实使用了this,那么this会绑定到全局对象,造成恶劣后果.</p>
+</blockquote>
+</li>
+<li>“更安全”的做法是传入一个特殊的对象，把this绑定到这个对象不会对你的程序产生任何副作用<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> foo(a,b) &#123;</span><br><span class="line">    console.log( <span class="string">"a:"</span> + a + <span class="string">", b:"</span> + b );</span><br><span class="line">&#125;</span><br><span class="line">// 我们的DMZ空对象</span><br><span class="line">var ø = Object.create( null );</span><br><span class="line">// 把数组展开成参数</span><br><span class="line">foo.apply( ø, [2, 3] ); // a:2, b:3</span><br><span class="line">// 使用<span class="built_in">bind</span>(..)进行柯里化</span><br><span class="line">var bar = foo.bind( ø, 2 ); </span><br><span class="line">bar( 3 ); // a:2, b:3</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p> 参考：<strong>《你不知道的JavaScript》</strong></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/10/blur和click事件的冲突问题/" rel="next" title="blur和click事件的冲突问题">
+                <i class="fa fa-chevron-left"></i> blur和click事件的冲突问题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/23/this/"
+           data-title="this机制的学习思考" data-url="http://yoursite.com/2016/08/23/this/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/ico.jpg"
+               alt="wkd" />
+          <p class="site-author-name" itemprop="name">wkd</p>
+          <p class="site-description motion-element" itemprop="description">You got a dream, you gotta protect it.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wkd2015" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://wkd2015.github.io/Demo/" target="_blank" title="Demo">
+                  
+                    <i class="fa fa-fw fa-file"></i>
+                  
+                  Demo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#关于this"><span class="nav-number">1.</span> <span class="nav-text">关于this</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#this解析"><span class="nav-number">2.</span> <span class="nav-text">this解析</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#调用位置-函数在代码中被调用的位置-而不是声明位置"><span class="nav-number">2.1.</span> <span class="nav-text">调用位置:函数在代码中被调用的位置(而不是声明位置)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#绑定规则"><span class="nav-number">2.2.</span> <span class="nav-text">绑定规则</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#优先级问题"><span class="nav-number">3.</span> <span class="nav-text">优先级问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#绑定例外问题"><span class="nav-number">4.</span> <span class="nav-text">绑定例外问题</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wkd</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wkd2015"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

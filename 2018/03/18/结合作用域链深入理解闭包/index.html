@@ -90,67 +90,19 @@
 
 
 
-<meta name="description" content="结合作用域链深入理解闭包0. 概念什么是闭包？
-
-闭包是指有权访问另外一个函数作用域中的变量的函数                ————《JavaScript高级程序设计》
-
-闭包的特性
-
-在函数内部嵌套函数
-内部函数可以饮用外部执行环境的变量和参数
-参数和变量不会被垃圾回收机制回收
-
-闭包的问题
-
-过度使用闭包会导致内存占用过多
-闭包只能取得循环中变量的最后一个值
-
-1. 作用域链
-作用域链本">
+<meta name="description" content="结合作用域链的原理和之前理解的内容对闭包的概念进行更深一步的理解和学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="结合作用域链深入理解闭包">
 <meta property="og:url" content="http://yoursite.com/2018/03/18/结合作用域链深入理解闭包/index.html">
 <meta property="og:site_name" content="Wkd's Blog">
-<meta property="og:description" content="结合作用域链深入理解闭包0. 概念什么是闭包？
-
-闭包是指有权访问另外一个函数作用域中的变量的函数                ————《JavaScript高级程序设计》
-
-闭包的特性
-
-在函数内部嵌套函数
-内部函数可以饮用外部执行环境的变量和参数
-参数和变量不会被垃圾回收机制回收
-
-闭包的问题
-
-过度使用闭包会导致内存占用过多
-闭包只能取得循环中变量的最后一个值
-
-1. 作用域链
-作用域链本">
+<meta property="og:description" content="结合作用域链的原理和之前理解的内容对闭包的概念进行更深一步的理解和学习">
 <meta property="og:image" content="https://raw.githubusercontent.com/wkd2015/Pic/master/blog/closure_0.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/wkd2015/Pic/master/blog/closure_1.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/wkd2015/Pic/master/blog/closure_2.png">
-<meta property="og:updated_time" content="2018-03-18T15:01:19.922Z">
+<meta property="og:updated_time" content="2018-03-18T15:14:27.764Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="结合作用域链深入理解闭包">
-<meta name="twitter:description" content="结合作用域链深入理解闭包0. 概念什么是闭包？
-
-闭包是指有权访问另外一个函数作用域中的变量的函数                ————《JavaScript高级程序设计》
-
-闭包的特性
-
-在函数内部嵌套函数
-内部函数可以饮用外部执行环境的变量和参数
-参数和变量不会被垃圾回收机制回收
-
-闭包的问题
-
-过度使用闭包会导致内存占用过多
-闭包只能取得循环中变量的最后一个值
-
-1. 作用域链
-作用域链本">
+<meta name="twitter:description" content="结合作用域链的原理和之前理解的内容对闭包的概念进行更深一步的理解和学习">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/wkd2015/Pic/master/blog/closure_0.png">
 
 
@@ -346,7 +298,11 @@
       
 
       
-        <h2 id="结合作用域链深入理解闭包"><a href="#结合作用域链深入理解闭包" class="headerlink" title="结合作用域链深入理解闭包"></a>结合作用域链深入理解闭包</h2><h3 id="0-概念"><a href="#0-概念" class="headerlink" title="0. 概念"></a>0. 概念</h3><p>什么是闭包？</p>
+        <blockquote>
+<p>结合作用域链的原理和之前理解的内容对闭包的概念进行更深一步的理解和学习</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="结合作用域链深入理解闭包"><a href="#结合作用域链深入理解闭包" class="headerlink" title="结合作用域链深入理解闭包"></a>结合作用域链深入理解闭包</h2><h3 id="0-概念"><a href="#0-概念" class="headerlink" title="0. 概念"></a>0. 概念</h3><p>什么是闭包？</p>
 <blockquote>
 <p>闭包是指有权访问另外一个函数作用域中的变量的函数<br>                ————《JavaScript高级程序设计》</p>
 </blockquote>
@@ -363,26 +319,26 @@
 </ol>
 <h3 id="1-作用域链"><a href="#1-作用域链" class="headerlink" title="1. 作用域链"></a>1. 作用域链</h3><blockquote>
 <p>作用域链本质上是一个指向变量对象的指针列表，它只引用但不实际包含变量对象。</p>
-<h4 id="1-1-执行环境和活动对象"><a href="#1-1-执行环境和活动对象" class="headerlink" title="1.1 执行环境和活动对象"></a>1.1 执行环境和活动对象</h4><p>在函数执行时，会创建一个叫做执行环境/执行上下文的内部对象。执行环境定义了函数及变量能访问的其他数据。每个执行环境中都有一个相关的<strong>变量对象</strong>，环境中所定义的所有变量和函数都保存在这个对象中，编译器在处理数据时会访问这个对象。<br>当执行流进入一个函数时，函数的环境就会被推进一个环境栈，而在函数执行完毕后，栈将环境弹出，把控制权返回给之前的执行环境。</p>
+</blockquote>
+<h4 id="1-1-执行环境和活动对象"><a href="#1-1-执行环境和活动对象" class="headerlink" title="1.1 执行环境和活动对象"></a>1.1 执行环境和活动对象</h4><p>在函数执行时，会创建一个叫做执行环境/执行上下文的内部对象。执行环境定义了函数及变量能访问的其他数据。每个执行环境中都有一个相关的<strong>变量对象</strong>，环境中所定义的所有变量和函数都保存在这个对象中，编译器在处理数据时会访问这个对象。<br>当执行流进入一个函数时，函数的环境就会被推进一个环境栈，而在函数执行完毕后，栈将环境弹出，把控制权返回给之前的执行环境。</p>
 <ul>
 <li>函数每次执行时的执行环境独一无二</li>
 <li>多次调用函数就多次创建执行环境</li>
-<li>函数执行完毕后，执行环境就会被销毁<br><img src="https://raw.githubusercontent.com/wkd2015/Pic/master/blog/closure_0.png" alt=""><br>当代码在一个环境中执行时，会创建变量对象的一个<strong>作用域链</strong>，用于保证对执行环境有权访问的所有变量和函数的<strong>有序访问</strong>,作用域的前端一直都是当前执行环境的变量对象。如果这个环境是函数的话，那么变量对象就是其活动对象，活动对象最开始只包括arguments对象。作用域链中的下一个变量对象来自其外部环境，以此类推，一直延续到全局变量环境。<h4 id="1-2-scope-属性"><a href="#1-2-scope-属性" class="headerlink" title="1.2 [[scope]]属性"></a>1.2 [[scope]]属性</h4>函数内部的[[scope]]属性是虚拟出来的一个属性，保存着<strong>这个函数的父作用域的作用域链</strong>。这个属性对应的是一个对象的列表，列表中的对象仅能javascript内部访问，通过语法访问不到这个属性。  </li>
+<li>函数执行完毕后，执行环境就会被销毁<br><img src="https://raw.githubusercontent.com/wkd2015/Pic/master/blog/closure_0.png" alt=""><br>当代码在一个环境中执行时，会创建变量对象的一个<strong>作用域链</strong>，用于保证对执行环境有权访问的所有变量和函数的<strong>有序访问</strong>,作用域的前端一直都是当前执行环境的变量对象。如果这个环境是函数的话，那么变量对象就是其活动对象，活动对象最开始只包括arguments对象。作用域链中的下一个变量对象来自其外部环境，以此类推，一直延续到全局变量环境。<h4 id="1-2-scope-属性"><a href="#1-2-scope-属性" class="headerlink" title="1.2 [[scope]]属性"></a>1.2 [[scope]]属性</h4>函数内部的[[scope]]属性是虚拟出来的一个属性，保存着<strong>这个函数的父作用域的作用域链</strong>。这个属性对应的是一个对象的列表，列表中的对象仅能javascript内部访问，通过语法访问不到这个属性。  </li>
 </ul>
 <ol>
-<li>函数定义时<br>在全局环境下定义了一个函数，此时该函数的[[scope]]属性中只包含一个全局对象；当进入函数体执行环境时，在函数体内的函数才被定义，其[[scope]]属性中包含全局对象，及当前活动对象。</li>
-<li>函数调用时<br>根据执行环境的定义，在函数被调用时，会创建对应的执行环境，每个执行环境对应一个变量对象。<ol>
-<li>首先会创建一个自身的活动对象（包含了<strong>this</strong>、参数(arguments)、局部变量(包括命名的参数)的定义）和一个变量对象的作用域链[[scope chain]]</li>
+<li>函数定义时<br>在全局环境下定义了一个函数，此时该函数的[[scope]]属性中只包含一个全局对象；当进入函数体执行环境时，在函数体内的函数才被定义，其[[scope]]属性中包含全局对象，及当前活动对象。</li>
+<li><p>函数调用时<br>根据执行环境的定义，在函数被调用时，会创建对应的执行环境，每个执行环境对应一个变量对象。</p>
+<ol>
+<li>首先会创建一个自身的活动对象（包含了<strong>this</strong>、参数(arguments)、局部变量(包括命名的参数)的定义）和一个变量对象的作用域链[[scope chain]]</li>
 <li>然后，把这个执行环境的[[scope]]按顺序复制到[[scope chain]]里。</li>
 <li>最后把这个活动对象推入到[[scope chain]]的顶部，这样[[scope chain]]就是一个有序的栈，这样保了对执行环境有权访问的所有变量和对象的有序访问。  </li>
 </ol>
 </li>
-</ol>
-</blockquote>
-<ol>
-<li>函数执行时  <ul>
+<li><p>函数执行时  </p>
+<ul>
 <li>遇到标识符,就会根据标识符的名称在执行环境(Execution Context)的作用域链中进行搜索。从作用域链的第一个对象（该函数的活动对象）开始，如果没有找到，就搜索作用域链中的下一个对象，如此往复，直到找到了标识符的定义。</li>
-<li>随着函数执行过程，逐步沿作用域链进行赋值与查询操作，在完成并返回后函数执行完毕，此时函数执行环境及作用域从对应的栈中弹出。</li>
+<li>随着函数执行过程，逐步沿作用域链进行赋值与查询操作，在完成并返回后函数执行完毕，此时函数执行环境及作用域从对应的栈中弹出。</li>
 </ul>
 </li>
 </ol>
@@ -394,42 +350,40 @@
 <h4 id="2-2-闭包解决的问题"><a href="#2-2-闭包解决的问题" class="headerlink" title="2.2 闭包解决的问题"></a>2.2 闭包解决的问题</h4><ul>
 <li><p>修正循环中取值问题</p>
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for (var i = 1; i &lt;= 5; i++) &#123;</span><br><span class="line">    setTimeout(function timer() &#123;</span><br><span class="line">        console.log(i);</span><br><span class="line">    &#125;, 1000);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>  上例的输出结果并不是从直观上推断出的1、2、3、4、5，而是输出5个5，其中的原因有两个：  </p>
+<p>  上例的输出结果并不是从直观上推断出的1、2、3、4、5，而是输出5个5，其中的原因有两个：  </p>
 <ol>
-<li>首先是setTimeout的执行顺序问题，在上述代码中即使将等待时间设定为0，其输出结果仍然是5个5。其原因是setTimeout在执行时会先推到一个等待队列里，在其他处于等待状态的事件执行完毕后，再“同时”、“立即”调用这些setTimeout，其执行顺序与delay时间相关。因此这段循环的执行顺序是先执行了所有的循环累加过程，再同时调用等待队列中的setTimeout。  </li>
-<li><p>其次是由于JavaScript不存在块级作用域，因此在代码上看好像是五个不同的i，其实由于这个运行过程是在同一个执行环境中，因此使用的是同一个全局作用域，实际上只有一个i。</p>
+<li>首先是setTimeout的执行顺序问题，在上述代码中即使将等待时间设定为0，其输出结果仍然是5个5。其原因是setTimeout在执行时会先推到一个等待队列里，在其他处于等待状态的事件执行完毕后，再“同时”、“立即”调用这些setTimeout，其执行顺序与delay时间相关。因此这段循环的执行顺序是先执行了所有的循环累加过程，再同时调用等待队列中的setTimeout。  </li>
+<li><p>其次是由于JavaScript不存在块级作用域，因此在代码上看好像是五个不同的i，其实由于这个运行过程是在同一个执行环境中，因此使用的是同一个全局作用域，实际上只有一个i。</p>
 <p>解决方案：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for (var i = 1; i &lt;= 5; i++) &#123;</span><br><span class="line">    (function(j) &#123;</span><br><span class="line">        setTimeout(function timer() &#123;</span><br><span class="line">            console.log(j);</span><br><span class="line">        &#125;, j*1000);</span><br><span class="line">    &#125;)(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>利用IIFE声明并立即执行一个函数从而创建起一个作用域，解决了setTimeout的执行延迟问题，同时也将全局执行环境中的i作为每一轮的参数传递给每一个迭代函数，从而解决问题。</p>
+<p>利用IIFE声明并立即执行一个函数从而创建起一个作用域，解决了setTimeout的执行延迟问题，同时也将全局执行环境中的i作为每一轮的参数传递给每一个迭代函数，从而解决问题。</p>
 </li>
 </ol>
 </li>
-<li><p>模块</p>
-<blockquote>
-<p>1. 创建私有变量  </p>
+<li>模块<blockquote>
 <ol>
-<li>模拟块级作用域<ol>
-<li>利用闭包实现模块<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function CoolModule() &#123;</span><br><span class="line">    var something = &quot;cool&quot;; </span><br><span class="line">    var another = [1, 2, 3];</span><br><span class="line">    function doSomething() &#123; </span><br><span class="line">        console.log( something );</span><br><span class="line">    &#125;</span><br><span class="line">    function doAnother() &#123;</span><br><span class="line">        console.log( another.join( &quot; ! &quot; ) );</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        doSomething: doSomething, </span><br><span class="line">        doAnother: doAnother</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">var foo = CoolModule(); </span><br><span class="line">foo.doSomething(); // cool</span><br><span class="line">foo.doAnother(); // 1 ! 2 ! 3</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-</li>
+<li>创建私有变量  </li>
+<li>模拟块级作用域</li>
 </ol>
 </blockquote>
-<p>  首先，CoolModule()只是一个函数，必须要通过调用它来创建一个模块实例。如果不执行外部函数，内部作用域和闭包都无法被创建。<br>  其次，CoolModule()返回一个用对象字面量语法{ key: value, … }来表示的对象。这个返回的对象中含有对内部函数而不是内部数据变量的引用。我们保持内部数据变量是隐藏且私有的状态。可以将这个对象类型的返回值看作本质上是模块的公共API。<br>  这个对象类型的返回值最终被赋值给外部的变量foo，然后就可以通过它来访问API中的属性方法，比如foo.doSomething()。  </p>
+</li>
+</ul>
+<ol>
+<li>利用闭包实现模块</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function CoolModule() &#123;</span><br><span class="line">    var something = &quot;cool&quot;; </span><br><span class="line">    var another = [1, 2, 3];</span><br><span class="line">    function doSomething() &#123; </span><br><span class="line">        console.log( something );</span><br><span class="line">    &#125;</span><br><span class="line">    function doAnother() &#123;</span><br><span class="line">        console.log( another.join( &quot; ! &quot; ) );</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        doSomething: doSomething, </span><br><span class="line">        doAnother: doAnother</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">var foo = CoolModule(); </span><br><span class="line">foo.doSomething(); // cool</span><br><span class="line">foo.doAnother(); // 1 ! 2 ! 3</span><br></pre></td></tr></table></figure>
+<p>首先，CoolModule()只是一个函数，必须要通过调用它来创建一个模块实例。如果不执行外部函数，内部作用域和闭包都无法被创建。<br>其次，CoolModule()返回一个用对象字面量语法{ key: value, … }来表示的对象。这个返回的对象中含有对内部函数而不是内部数据变量的引用。我们保持内部数据变量是隐藏且私有的状态。可以将这个对象类型的返回值看作本质上是模块的公共API。<br>这个对象类型的返回值最终被赋值给外部的变量foo，然后就可以通过它来访问API中的属性方法，比如foo.doSomething()。  </p>
 <blockquote>
 <p>从模块中返回一个实际的对象并不是必须的，也可以直接返回一个内部函数。jQuery就是一个很好的例子。jQuery和$标识符就是jQuery模块的公共API，但它们本身都是函数（函数也是对象，也可以拥有属性）。</p>
 </blockquote>
-<p>  doSomething()和doAnother()函数具有涵盖模块实例内部作用域的闭包（通过调用CoolModule()实现）。当通过返回一个含有属性引用的对象的方式来将函数传递到词法作用域外部时，就已经创造了可以观察和实践闭包的条件。<br>  另外代码中的CoolModule作为模块创建器，每次调用都会创建一个新的模块实例，再需要单例模式时，可以利用IIFE改进来构建：</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var foo = (function CoolModule() &#123; </span><br><span class="line">    var something = &quot;cool&quot;;</span><br><span class="line">    var another = [1, 2, 3];</span><br><span class="line">    function doSomething() &#123; </span><br><span class="line">        console.log( something );</span><br><span class="line">    &#125;</span><br><span class="line">    function doAnother() &#123;</span><br><span class="line">        console.log( another.join( &quot; ! &quot; ) );</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        doSomething: doSomething, </span><br><span class="line">        doAnother: doAnother</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line">foo.doSomething(); // cool </span><br><span class="line">foo.doAnother(); // 1 ! 2 ! 3</span><br></pre></td></tr></table></figure>
+<p>doSomething()和doAnother()函数具有涵盖模块实例内部作用域的闭包（通过调用CoolModule()实现）。当通过返回一个含有属性引用的对象的方式来将函数传递到词法作用域外部时，就已经创造了可以观察和实践闭包的条件。<br>另外代码中的CoolModule作为模块创建器，每次调用都会创建一个新的模块实例，再需要单例模式时，可以利用IIFE改进来构建：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var foo = (function CoolModule() &#123; </span><br><span class="line">    var something = &quot;cool&quot;;</span><br><span class="line">    var another = [1, 2, 3];</span><br><span class="line">    function doSomething() &#123; </span><br><span class="line">        console.log( something );</span><br><span class="line">    &#125;</span><br><span class="line">    function doAnother() &#123;</span><br><span class="line">        console.log( another.join( &quot; ! &quot; ) );</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        doSomething: doSomething, </span><br><span class="line">        doAnother: doAnother</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line">foo.doSomething(); // cool </span><br><span class="line">foo.doAnother(); // 1 ! 2 ! 3</span><br></pre></td></tr></table></figure>
 <ol>
-<li><p>现代模块机制<br>大多数模块依赖加载器/管理器本质上都是将这种模块定义封装进一个友好的API：</p>
+<li>现代模块机制<br>大多数模块依赖加载器/管理器本质上都是将这种模块定义封装进一个友好的API：</li>
+</ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var MyModules = (function Manager() &#123;</span><br><span class="line">    var modules = &#123;&#125;;</span><br><span class="line">    function define(name, deps, impl) &#123;</span><br><span class="line">        for (var i=0; i&lt;deps.length; i++) &#123;</span><br><span class="line">            deps[i] = modules[deps[i]];</span><br><span class="line">        &#125;</span><br><span class="line">        modules[name] = impl.apply( impl, deps );</span><br><span class="line">    &#125;</span><br><span class="line">    function get(name) &#123;</span><br><span class="line">        return modules[name];</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        define: define,</span><br><span class="line">        get: get</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
 <p>利用modules[name] = impl.apply(impl, deps)。引入包装函数（可以传入任何依赖），并且将返回值，也就是模块的API，储存在一个根据名字来管理的模块列表中。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">MyModules.define( &quot;bar&quot;, [], function() &#123;</span><br><span class="line">    function hello(who) &#123;</span><br><span class="line">        return &quot;Let me introduce: &quot; + who;</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        hello: hello</span><br><span class="line">    &#125;;</span><br><span class="line">&#125; );</span><br><span class="line">MyModules.define( &quot;foo&quot;, [&quot;bar&quot;], function(bar) &#123;</span><br><span class="line">    var hungry = &quot;hippo&quot;;</span><br><span class="line">    function awesome() &#123;</span><br><span class="line">        console.log( bar.hello( hungry ).toUpperCase() );</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        awesome: awesome</span><br><span class="line">    &#125;;</span><br><span class="line">&#125; );</span><br><span class="line">var bar = MyModules.get( &quot;bar&quot; );</span><br><span class="line">var foo = MyModules.get( &quot;foo&quot; );</span><br><span class="line">console.log(</span><br><span class="line">    bar.hello( &quot;hippo&quot; )</span><br><span class="line">); // &lt;i&gt;Let me introduce: hippo&lt;/i&gt;</span><br><span class="line">foo.awesome(); // LET ME INTRODUCE: HIPPO</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-</li>
-</ul>
 <h3 id="3-ES6的解决方案"><a href="#3-ES6的解决方案" class="headerlink" title="3. ES6的解决方案"></a>3. ES6的解决方案</h3><p>let，const 待更新…</p>
 
       

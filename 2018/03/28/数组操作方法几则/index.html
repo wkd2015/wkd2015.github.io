@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="JavaScript," />
+  <meta name="keywords" content="JavaScript,ES6," />
 
 
 
@@ -90,19 +90,25 @@
 
 
 
-<meta name="description" content="闭包的概念有权访问另一个函数作用域中的变量的函数。
-如何实现闭包创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.">
+<meta name="description" content="一些数组操作方法和技巧的总结
+
+创建顺序规律数组
+多维数组展开">
 <meta property="og:type" content="article">
-<meta property="og:title" content="闭包">
-<meta property="og:url" content="http://yoursite.com/2016/05/08/闭包/index.html">
+<meta property="og:title" content="一些关于数组操作的技巧和方法">
+<meta property="og:url" content="http://yoursite.com/2018/03/28/数组操作方法几则/index.html">
 <meta property="og:site_name" content="Wkd's Blog">
-<meta property="og:description" content="闭包的概念有权访问另一个函数作用域中的变量的函数。
-如何实现闭包创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.">
-<meta property="og:updated_time" content="2016-05-08T14:19:44.854Z">
+<meta property="og:description" content="一些数组操作方法和技巧的总结
+
+创建顺序规律数组
+多维数组展开">
+<meta property="og:updated_time" content="2018-03-28T14:47:13.325Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="闭包">
-<meta name="twitter:description" content="闭包的概念有权访问另一个函数作用域中的变量的函数。
-如何实现闭包创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.">
+<meta name="twitter:title" content="一些关于数组操作的技巧和方法">
+<meta name="twitter:description" content="一些数组操作方法和技巧的总结
+
+创建顺序规律数组
+多维数组展开">
 
 
 
@@ -120,7 +126,7 @@
   };
 </script>
 
-  <title> 闭包 | Wkd's Blog </title>
+  <title> 一些关于数组操作的技巧和方法 | Wkd's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -250,7 +256,7 @@
             
             
               
-                闭包
+                一些关于数组操作的技巧和方法
               
             
           </h1>
@@ -262,8 +268,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-08T21:52:36+08:00" content="2016-05-08">
-              2016-05-08
+            <time itemprop="dateCreated" datetime="2018-03-28T22:37:47+08:00" content="2018-03-28">
+              2018-03-28
             </time>
           </span>
 
@@ -273,8 +279,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/05/08/闭包/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/08/闭包/" itemprop="commentsCount"></span>
+                <a href="/2018/03/28/数组操作方法几则/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/03/28/数组操作方法几则/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -297,20 +303,42 @@
       
 
       
-        <h3 id="闭包的概念"><a href="#闭包的概念" class="headerlink" title="闭包的概念"></a>闭包的概念</h3><p>有权访问另一个函数作用域中的变量的函数。</p>
-<h3 id="如何实现闭包"><a href="#如何实现闭包" class="headerlink" title="如何实现闭包"></a>如何实现闭包</h3><p>创建闭包最常见的方式是在一个函数内创建另一个函数,通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用域链,将函数内部的变量和方法传递到外部.<br><a id="more"></a></p>
-<h3 id="闭包的特性"><a href="#闭包的特性" class="headerlink" title="闭包的特性"></a>闭包的特性</h3><ol>
-<li>函数内再嵌套函数.</li>
-<li>内部函数可以引用外层的参数和变量.</li>
-<li>参数和变量不会被垃圾回收机制回收.<br><em>在另一个函数内部定义的函数会将包含函数的活动对象添加到它的作用域链中,因此在函数执行完毕后,其活动对象也不会被销毁,因为其内含函数的作用域链仍然在引用这个活动对象.</em></li>
+        <blockquote>
+<p>一些数组操作方法和技巧的总结</p>
+<ol>
+<li>创建顺序规律数组</li>
+<li>多维数组展开</li>
 </ol>
-<h3 id="闭包的缺点"><a href="#闭包的缺点" class="headerlink" title="闭包的缺点"></a>闭包的缺点</h3><ol>
-<li>过度使用闭包会导致内存占用过多</li>
-<li>闭包只能取得循环中变量的最后一个值<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">createFunctions</span></span>() &#123;</span><br><span class="line">    var result = new Array();</span><br><span class="line">    <span class="keyword">for</span> (var i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">        result[i] = <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">            <span class="built_in">return</span> i;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> result; //返回的result数组里全部为10</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<a id="more"></a>
+<h3 id="创建一个按照下标-顺序赋值的数组"><a href="#创建一个按照下标-顺序赋值的数组" class="headerlink" title="创建一个按照下标/顺序赋值的数组"></a>创建一个按照下标/顺序赋值的数组</h3><p>在实际的应用中，有时会需要迅速生成一个按照顺序排列的数组(日期等)，利用ES6新增的keys遍历可以很方便的生成。</p>
+<ol>
+<li><p>当年月份</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Array.from(Array(12).keys(), x =&gt; `2018年$&#123;x + 1&#125;月`);</span><br><span class="line"></span><br><span class="line">[...Array(12).keys()].map(function(e)&#123;</span><br><span class="line">	return `2018年$&#123;e + 1&#125;月`;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//[&quot;2018年1月&quot;, &quot;2018年2月&quot;, &quot;2018年3月&quot;, ...]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>生成[[1,1,1],[2,2,2],…[n,n,n]]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function generateArr (n) &#123;</span><br><span class="line">    return Array.from(Array(n).keys(), x =&gt; Array(3).fill(x + 1));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p><strong>每个函数的作用域链中都保存着父函数的活动对象，所以它们引用的都是同一个变量i。</strong></p>
-<p>可以通过创建另一个匿名函数来让闭包的行为符合预期。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">createFunctions</span></span>() &#123;</span><br><span class="line">    var result = new Array();</span><br><span class="line">    <span class="keyword">for</span> (var i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">        result[i] = <span class="keyword">function</span> (num) &#123;</span><br><span class="line">            <span class="built_in">return</span> <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">                <span class="built_in">return</span> num; //通过闭包维持住局部变量num的存在</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里主要用到的是Array的keys和Array.from以及扩展运算符…。</p>
+<ul>
+<li>首先从keys说起，keys是ES6提供的一个新对象，用于遍历数组,会返回一个遍历器对象(Iterator)，值为对键名的遍历，而在数组上的效果就是有序返回所有下标值。</li>
+<li>而Array.from和扩展运算符则是可以将实现了Iterator接口的对象转换为真正的数组,另外Array.from还可以将类数组对象转换为真正的数组，例如arguments。</li>
+<li>Array.from还可以接受第二个参数，对遍历的值进行操作，获得类似map方法的效果。</li>
+<li>fill(x)方法的作用是使用给定值填充数组，还可以接受其他两个参数来表示起始位置。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&apos;a&apos;, &apos;b&apos;, &apos;c&apos;].fill(7, 1, 2) //1,2为起始位置</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="多维数组转换为一维数组"><a href="#多维数组转换为一维数组" class="headerlink" title="多维数组转换为一维数组"></a>多维数组转换为一维数组</h3><p>在使用数组数据时，有时需要合并数组内的数组，最终得到一个一维数组，从而进行下一步的操作，在进行转换时，一般区分为二维数组和多维数组的情况：</p>
+<ol>
+<li>二维数组<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let arr = [[1,2,3],[5,6,7]]</span><br><span class="line">let flat_arr = [].concat.apply([], arr);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>arr作为apply方法的第二个参数，本身是一个数组，数组中的每一个子数组元素会被作为参数依次传入到concat中，效果等同于[].concat([1,2,3],[5,6,7])。</p>
+<ol>
+<li>多维数组<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function arrayFlatten(arr) &#123;</span><br><span class="line">    let result = []; </span><br><span class="line">    let stack = arr; </span><br><span class="line">    while (stack.length !== 0) &#123; </span><br><span class="line">        let val = stack.pop(); </span><br><span class="line">        if (Array.isArray(val)) &#123; </span><br><span class="line">            stack = stack.concat(val); </span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            result.unshift(val); </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>利用apply和concat的写法只适用于二维数组，多维数组则需要利用循环判断将多维数组逐步展开。</p>
 
       
     </div>
@@ -334,6 +362,8 @@
           
             <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
           
+            <a href="/tags/ES6/" rel="tag">#ES6</a>
+          
         </div>
       
 
@@ -341,17 +371,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/08/JS中同时声明多个变量的原理/" rel="next" title="JS中同时声明多个变量的原理">
-                <i class="fa fa-chevron-left"></i> JS中同时声明多个变量的原理
+              <a href="/2018/03/18/结合作用域链深入理解闭包/" rel="next" title="结合作用域链深入理解闭包">
+                <i class="fa fa-chevron-left"></i> 结合作用域链深入理解闭包
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/26/delegate/" rel="prev" title="jQuery事件绑定方法delegate()">
-                jQuery事件绑定方法delegate() <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -377,8 +403,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/05/08/闭包/"
-           data-title="闭包" data-url="http://yoursite.com/2016/05/08/闭包/">
+      <div class="ds-thread" data-thread-key="2018/03/28/数组操作方法几则/"
+           data-title="一些关于数组操作的技巧和方法" data-url="http://yoursite.com/2018/03/28/数组操作方法几则/">
       </div>
     
   </div>
@@ -482,7 +508,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的概念"><span class="nav-number">1.</span> <span class="nav-text">闭包的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何实现闭包"><span class="nav-number">2.</span> <span class="nav-text">如何实现闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的特性"><span class="nav-number">3.</span> <span class="nav-text">闭包的特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包的缺点"><span class="nav-number">4.</span> <span class="nav-text">闭包的缺点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个按照下标-顺序赋值的数组"><span class="nav-number">1.</span> <span class="nav-text">创建一个按照下标/顺序赋值的数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多维数组转换为一维数组"><span class="nav-number">2.</span> <span class="nav-text">多维数组转换为一维数组</span></a></li></ol></div>
             
           </div>
         </section>

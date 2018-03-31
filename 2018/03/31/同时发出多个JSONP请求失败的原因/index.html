@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CSS," />
+  <meta name="keywords" content="JavaScript," />
 
 
 
@@ -90,22 +90,18 @@
 
 
 
-<meta name="description" content="CSS 隐藏页面元素有许多种方法,每一种方法实际上与其他方法之间都有一些细微的不同，这些不同决定了在一个特定的场合下使用哪一个方法。
-
-opacityopacity 属性的意思是设置一个元素的透明度。它不是为改变元素的边界框（bounding box）而设计的。这意味着将 opacity 设为 0 只能从视觉上隐藏元素。而元素本身依然占据它自己的位置并对网页的布局起作用。它也将响应用户交互。">
+<meta name="description" content="在用jsonp跨域请求多个数据时，出现了一些错误，结合遇到的问题学习了下jsonp的逻辑以及解决方法。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSS隐藏元素的几种思路">
-<meta property="og:url" content="http://yoursite.com/2016/06/15/CSS隐藏元素的几种思路/index.html">
+<meta property="og:title" content="同时发出多个JSONP请求失败的原因">
+<meta property="og:url" content="http://yoursite.com/2018/03/31/同时发出多个JSONP请求失败的原因/index.html">
 <meta property="og:site_name" content="Wkd's Blog">
-<meta property="og:description" content="CSS 隐藏页面元素有许多种方法,每一种方法实际上与其他方法之间都有一些细微的不同，这些不同决定了在一个特定的场合下使用哪一个方法。
-
-opacityopacity 属性的意思是设置一个元素的透明度。它不是为改变元素的边界框（bounding box）而设计的。这意味着将 opacity 设为 0 只能从视觉上隐藏元素。而元素本身依然占据它自己的位置并对网页的布局起作用。它也将响应用户交互。">
-<meta property="og:updated_time" content="2016-06-15T12:10:37.707Z">
+<meta property="og:description" content="在用jsonp跨域请求多个数据时，出现了一些错误，结合遇到的问题学习了下jsonp的逻辑以及解决方法。">
+<meta property="og:image" content="https://raw.githubusercontent.com/wkd2015/Pic/master/blog/jsonp_1.jpg">
+<meta property="og:updated_time" content="2018-03-31T15:36:25.502Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CSS隐藏元素的几种思路">
-<meta name="twitter:description" content="CSS 隐藏页面元素有许多种方法,每一种方法实际上与其他方法之间都有一些细微的不同，这些不同决定了在一个特定的场合下使用哪一个方法。
-
-opacityopacity 属性的意思是设置一个元素的透明度。它不是为改变元素的边界框（bounding box）而设计的。这意味着将 opacity 设为 0 只能从视觉上隐藏元素。而元素本身依然占据它自己的位置并对网页的布局起作用。它也将响应用户交互。">
+<meta name="twitter:title" content="同时发出多个JSONP请求失败的原因">
+<meta name="twitter:description" content="在用jsonp跨域请求多个数据时，出现了一些错误，结合遇到的问题学习了下jsonp的逻辑以及解决方法。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wkd2015/Pic/master/blog/jsonp_1.jpg">
 
 
 
@@ -123,7 +119,7 @@ opacityopacity 属性的意思是设置一个元素的透明度。它不是为�
   };
 </script>
 
-  <title> CSS隐藏元素的几种思路 | Wkd's Blog </title>
+  <title> 同时发出多个JSONP请求失败的原因 | Wkd's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -253,7 +249,7 @@ opacityopacity 属性的意思是设置一个元素的透明度。它不是为�
             
             
               
-                CSS隐藏元素的几种思路
+                同时发出多个JSONP请求失败的原因
               
             
           </h1>
@@ -265,8 +261,8 @@ opacityopacity 属性的意思是设置一个元素的透明度。它不是为�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-15T19:53:33+08:00" content="2016-06-15">
-              2016-06-15
+            <time itemprop="dateCreated" datetime="2018-03-31T23:35:56+08:00" content="2018-03-31">
+              2018-03-31
             </time>
           </span>
 
@@ -276,8 +272,8 @@ opacityopacity 属性的意思是设置一个元素的透明度。它不是为�
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/06/15/CSS隐藏元素的几种思路/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/15/CSS隐藏元素的几种思路/" itemprop="commentsCount"></span>
+                <a href="/2018/03/31/同时发出多个JSONP请求失败的原因/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/03/31/同时发出多个JSONP请求失败的原因/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -301,16 +297,20 @@ opacityopacity 属性的意思是设置一个元素的透明度。它不是为�
 
       
         <blockquote>
-<p>CSS 隐藏页面元素有许多种方法,每一种方法实际上与其他方法之间都有一些细微的不同，这些不同决定了在一个特定的场合下使用哪一个方法。</p>
+<p>在用jsonp跨域请求多个数据时，出现了一些错误，结合遇到的问题学习了下jsonp的逻辑以及解决方法。</p>
 </blockquote>
-<h3 id="opacity"><a href="#opacity" class="headerlink" title="opacity"></a>opacity</h3><p>opacity 属性的意思是<strong>设置一个元素的透明度</strong>。它不是为改变元素的边界框（bounding box）而设计的。这意味着将 opacity 设为 0 <strong>只能从视觉上隐藏元素。而元素本身依然占据它自己的位置并对网页的布局起作用。它也将响应用户交互</strong>。<br><a id="more"></a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.hide &#123;</span><br><span class="line">    opacity: 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>如果你打算使用 opacity 属性在读屏软件中隐藏元素，并不能如愿。元素和它所有的内容会被读屏软件阅读，就像网页上的其他元素那样。换句话说，<strong>元素的行为就和它们不透明时一致</strong>。</p>
-<h3 id="visibility"><a href="#visibility" class="headerlink" title="visibility"></a>visibility</h3><p>第二个要说的属性是 visibility。将它的值设为 hidden 将隐藏我们的元素。如同 opacity 属性，<strong>被隐藏的元素依然会对我们的网页布局起作用</strong>。与 opacity 唯一不同的是它<strong>不会响应任何用户交互。此外，元素在读屏软件中也会被隐藏</strong>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.hide &#123;</span><br><span class="line">   visibility: hidden;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>如果一个元素的 visibility 被设置为 hidden，同时想要显示它的某个子孙元素，只要将那个元素的 visibility 显式设置为 visible 即可</p>
-<h3 id="display"><a href="#display" class="headerlink" title="display"></a>display</h3><p>display 属性依照词义真正隐藏元素。将 display 属性设为 none <strong>确保元素不可见并且连盒模型也不生成。使用这个属性，被隐藏的元素不占据任何空间</strong>。不仅如此，一旦 display 设为 none <strong>任何对该元素直接打用户交互操作都不可能生效。此外，读屏软件也不会读到元素的内容。这种方式产生的效果就像元素完全不存在</strong>。<br>任何这个元素的<strong>子孙元素也会被同时隐藏。为这个属性添加过渡动画是无效的，它的任何不同状态值之间的切换总是会立即生效</strong>。<strong>通过 DOM 依然可以访问到这个元素。因此你可以通过 DOM 来操作它，就像操作其他的元素。</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.hide &#123;</span><br><span class="line">   display: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="position"><a href="#position" class="headerlink" title="position"></a>position</h3><p>假设有一个元素你<strong>想要与它交互，又不想让它影响网页布局</strong>，没有合适的属性可以处理这种情况（opacity和visibility影响布局,display不影响布局但又无法直接交互）。在这种情况下，只能考虑<strong>将元素移出可视区域</strong>。这个办法既不会影响布局，有能让元素保持可以操作。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.hide &#123;</span><br><span class="line">   position: absolute;</span><br><span class="line">   top: -9999px;</span><br><span class="line">   left: -9999px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这种方法的主要原理是通过将元素的 top 和 left 设置成足够大的负数，使它在屏幕上不可见。采用这个技术的一个好处（或者潜在的缺点）是用它隐藏的元素的内容可以被读屏软件读取。这完全可以理解，是因为你只是将元素移到可视区域外面让用户无法看到它。</p>
-
+<a id="more"></a>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>在对需要同时发出的多个跨域请求进行处理时，出现了只有一个请求会成功调取回调函数的情况:<br><strong>代码如下:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">if (url.indexOf(&apos;?&apos;) === -1) &#123;</span><br><span class="line">    url += &apos;?cb=responseHandler&apos;;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    url += &apos;&amp;cb=responseHandler&apos;;</span><br><span class="line">&#125;</span><br><span class="line">let script = document.createElement(&apos;script&apos;);</span><br><span class="line">eval(`responseHandler = function (json) &#123; </span><br><span class="line">    try &#123;</span><br><span class="line">        resolve(json);</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        script.parentNode.removeChild(script);</span><br><span class="line">        window[&apos;responseHandler&apos;] = null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;`);</span><br><span class="line">script.setAttribute(&apos;src&apos;, url)</span><br><span class="line">document.body.appendChild(script);</span><br></pre></td></tr></table></figure></p>
+<p><strong>运行结果如下:</strong><br><img src="https://raw.githubusercontent.com/wkd2015/Pic/master/blog/jsonp_1.jpg" alt="" title="描述"></p>
+<blockquote>
+<p>在这里共有12次请求，<strong>请求全部成功发出并返回，但只有最后一次请求的回调函数生效</strong>，而其余的全部失败。</p>
+</blockquote>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><ol>
+<li>在上述代码中，其实是往windows全局环境中添加了一个方法responseHandler以处理请求的回调函数，从而接收数据。而这12次操作，则是由后一个接替覆盖了前一个函数表达式的赋值操作，最后仅剩下了最后一个jsonp请求的处理。因此，<strong>实际上多次请求调用的都是最后一次jsonp的回调处理函数</strong>。</li>
+<li>而eval中的函数代码执行的作用域为当前script标签所在的作用域，里面调用的函数也是最后一次生成的script标签，所以<strong>报错的原因是重复执行了多次移除操作，其中只有一次是成功的</strong>。</li>
+</ol>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>给每一个JSONP请求的回调函数设定唯一的函数名，从而避免冲突，经过测试可以成功解决:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function jsonp(options) &#123;</span><br><span class="line">    let key = +new Date();</span><br><span class="line">    let _url = options.url;</span><br><span class="line">    if (_url.indexOf(&apos;?&apos;) === -1) &#123;</span><br><span class="line">        _url += &apos;?cb=responseHandler&apos; + key;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        _url += &apos;&amp;cb=responseHandler&apos; + key;</span><br><span class="line">    &#125;</span><br><span class="line">    let script = document.createElement(&apos;script&apos;);</span><br><span class="line">    eval(`responseHandler$&#123;key&#125; = function (json) &#123; </span><br><span class="line">        try &#123;</span><br><span class="line">            options.success(json)</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            script.parentNode.removeChild(script);</span><br><span class="line">            window[&apos;responseHandler$&#123;key&#125;&apos;] = null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;`);</span><br><span class="line">    script.setAttribute(&apos;src&apos;, _url);</span><br><span class="line">    document.body.appendChild(script);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -331,7 +331,7 @@ opacityopacity 属性的意思是设置一个元素的透明度。它不是为�
       
         <div class="post-tags">
           
-            <a href="/tags/CSS/" rel="tag">#CSS</a>
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
           
         </div>
       
@@ -340,17 +340,13 @@ opacityopacity 属性的意思是设置一个元素的透明度。它不是为�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/06/13/你不知道的JavaScript笔记之作用域/" rel="next" title="作用域学习笔记">
-                <i class="fa fa-chevron-left"></i> 作用域学习笔记
+              <a href="/2018/03/28/数组操作方法几则/" rel="next" title="一些关于数组操作的技巧和方法">
+                <i class="fa fa-chevron-left"></i> 一些关于数组操作的技巧和方法
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/06/15/IFE栅格化布局任务相关知识/" rel="prev" title="IFE栅格化布局任务相关知识">
-                IFE栅格化布局任务相关知识 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -376,8 +372,8 @@ opacityopacity 属性的意思是设置一个元素的透明度。它不是为�
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/06/15/CSS隐藏元素的几种思路/"
-           data-title="CSS隐藏元素的几种思路" data-url="http://yoursite.com/2016/06/15/CSS隐藏元素的几种思路/">
+      <div class="ds-thread" data-thread-key="2018/03/31/同时发出多个JSONP请求失败的原因/"
+           data-title="同时发出多个JSONP请求失败的原因" data-url="http://yoursite.com/2018/03/31/同时发出多个JSONP请求失败的原因/">
       </div>
     
   </div>
@@ -481,7 +477,7 @@ opacityopacity 属性的意思是设置一个元素的透明度。它不是为�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#opacity"><span class="nav-number">1.</span> <span class="nav-text">opacity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#visibility"><span class="nav-number">2.</span> <span class="nav-text">visibility</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#display"><span class="nav-number">3.</span> <span class="nav-text">display</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#position"><span class="nav-number">4.</span> <span class="nav-text">position</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方法"><span class="nav-number">3.</span> <span class="nav-text">解决方法</span></a></li></ol></div>
             
           </div>
         </section>

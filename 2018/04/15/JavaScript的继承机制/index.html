@@ -1,0 +1,705 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Satisfy:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,ES6," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="对于JavaScript中的“继承”机制的学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript中基于原型链的“继承”机制">
+<meta property="og:url" content="http://yoursite.com/2018/04/15/JavaScript的继承机制/index.html">
+<meta property="og:site_name" content="Wkd's Blog">
+<meta property="og:description" content="对于JavaScript中的“继承”机制的学习">
+<meta property="og:image" content="https://raw.githubusercontent.com/wkd2015/Pic/master/blog/prototype_1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wkd2015/Pic/master/blog/prototype_2.jpg">
+<meta property="og:updated_time" content="2018-04-15T15:43:10.666Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript中基于原型链的“继承”机制">
+<meta name="twitter:description" content="对于JavaScript中的“继承”机制的学习">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wkd2015/Pic/master/blog/prototype_1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> JavaScript中基于原型链的“继承”机制 | Wkd's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Wkd's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Keep Moving!</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript中基于原型链的“继承”机制
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-04-15T23:30:03+08:00" content="2018-04-15">
+              2018-04-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2018/04/15/JavaScript的继承机制/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/04/15/JavaScript的继承机制/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>对于JavaScript中的“继承”机制的学习</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="传统面向对象语言中的类"><a href="#传统面向对象语言中的类" class="headerlink" title="传统面向对象语言中的类"></a>传统面向对象语言中的类</h3><h4 id="类-继承"><a href="#类-继承" class="headerlink" title="类/继承"></a>类/继承</h4><p>类是一种代码的组织结构，用于对真实世界中的问题建模。面向对象的语言强调的是数据与其行为相关联，提供封装了相关行为的结构，即数据结构。<br>类的继承是指一个类继承了另一个类的基础定义，而通过类所创建的内容就是类的实例。</p>
+<h4 id="类的多态性"><a href="#类的多态性" class="headerlink" title="类的多态性"></a>类的多态性</h4><p>父类的通用行为可以被子类用更特殊的行为所重写。</p>
+<h4 id="类的行为本质"><a href="#类的行为本质" class="headerlink" title="类的行为本质"></a>类的行为本质</h4><p>在传统的面向对象语言中，类的继承、实例化，实质上就是一种复制行为。<br>子类相对于父类来说是一个独立并且完全不同的类。子类会包含父类行为的样本，也可以通过在子类中定义与父类中相同的方法名来改写某个继承的行为，这种改写不会影响父类的方法，两者互不影响。</p>
+<hr>
+<h3 id="JavaScript中的“类”"><a href="#JavaScript中的“类”" class="headerlink" title="JavaScript中的“类”"></a>JavaScript中的“类”</h3><blockquote>
+<p>在继承和实例化的过程中，JavaScript的对象机制决定了并不会自动执行复制行为。简单来说，JavaScript中只有对象，并不存在可以被实例化的类。一个对象并不会被复制到其他对象，被复制的只是引用而已，它们通过这种关系实现关联。</p>
+</blockquote>
+<h4 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h4><p>在JavaScript中，函数本身也是一个包含了方法和属性的对象。每个函数都有一个特殊的[[prototype]] 内置属性，其实就是对于其他对象的引用，它的初始值指向一个“空”对象。<br>当我们访问构造器函数创建的函数的某个属性时，JavaScript引擎会遍历该对象的所有属性，并查找出该属性，如果找到了就会立即返回该值；如果找不到该属性，引擎就会去查询用于创建当前对象的构造器函数的原型，如果在原型中查找到了该属性，就立即使用该属性。因此我们<strong>可以利用原型对构造器函数添加方法和属性</strong>。<br>由于在JavaScript中，几乎所有对象都是通过传引用的方式来传递的，因此我们所创建的每个新对象实体中并没有一份属于自己的原型副本。这也就意味着我们<strong>可以随时修改prototype属性，并且由同一构造器创建的所有对象的prototype属性也都会同时改变，即使是在修改之前就已经创建的对象也一样</strong>。</p>
+<h5 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h5><blockquote>
+<ul>
+<li>原型中所有属性是被很多实例共享的，这种共享对于函数非常合适。但是对于包含引用类型的属性来说，问题就比较大了。例如在原型中定义一个包含数组的属性，那么在实例中对数组进行修改的话，其他示例中所引用的数组内容也会变化。</li>
+<li>如果遇上对象的自身属性与原型属性同名，那么对象自身属性的优先级高于原型属性。<ul>
+<li>可以利用自身属性重写原型属性。<ul>
+<li>可以通过hasOwnProperty()方法判断一个属性属于自身属性还是原型属性。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h4><p>由原型的定义知道，JavaScript中每一个函数都有一个指向某一对象的prototype属性，该函数被new操作符调用时会创建并返回一个对象，并且该对象中会有一个指向其原型对象的链接，我们可以<strong>在新建的对象中调用相关原型对象的方法和属性。而原型对象本身也有对象固有的普遍特征，因此本身也有指向其原型的链接，由此就形成了一条链</strong>。  </p>
+<h4 id="“继承”"><a href="#“继承”" class="headerlink" title="“继承”"></a>“继承”</h4><blockquote>
+<p>基础思想: 利用原型链的调用特性实现一个引用类型继承另一个引用类型的属性和方法。</p>
+</blockquote>
+<p>在传统的面向类的语言中，类可以被复制多次，每次实例化的过程都是一次复制。而JavaScript是一种完全依靠对象的语言，没有类似的复制机制。你不能创建一个类的多个实例，只能创建多个对象，他们的[[prototype]]关联的是同一个对象。因为在默认情况下，并不会进行复制，所以这些对象之间并不会完全失去联系，他们是互相关联的。<br>在JavaScript中，称为“继承”其实是不准确的，因为传统面向类的语言中继承意味着复制操作，而<strong>JavaScript默认情况下并不会复制对象属性，而是在两个对象之间创建一个关联，这样一个对象可以委托访问另一个对象的属性和函数</strong>。委托可以更加准确的描述JavaScript中对象的关联机制。</p>
+<h5 id="构造函数继承"><a href="#构造函数继承" class="headerlink" title="构造函数继承"></a>构造函数继承</h5><blockquote>
+<p>借助构造函数以及prototype实现继承的方式</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function Parent () &#123;</span><br><span class="line">    this.name = &quot;parent&quot;;</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = function () &#123;</span><br><span class="line">	console.log(this.name);   </span><br><span class="line">&#125; </span><br><span class="line">function Child () &#123;</span><br><span class="line">	Parent.call(this);</span><br><span class="line">	this.type = &quot;child&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>问题<ul>
+<li>这种方法只能继承父类构造函数中声明的实例属性，并没有继承父类原型中定义的属性和方法</li>
+<li>原因在于call方法的本质是改变了当前函数的执行上下文，只能保证原本父类中this指向的属性在call操作后被复制到当前this上，而未对原型上的方法做操作。<br><img src="https://raw.githubusercontent.com/wkd2015/Pic/master/blog/prototype_1.jpg" alt=""><h5 id="原型链继承"><a href="#原型链继承" class="headerlink" title="原型链继承"></a>原型链继承</h5><blockquote>
+<p>修改原型链指向以实现继承</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function Parent () &#123;</span><br><span class="line">    this.name = &quot;parent&quot;;</span><br><span class="line">	this.code = [1,2,3];</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = function () &#123;</span><br><span class="line">	console.log(this.name);   </span><br><span class="line">&#125; </span><br><span class="line">function Child () &#123;</span><br><span class="line">	this.type = &quot;child&quot;;</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = new Parent();</span><br><span class="line">s1 = new Child();</span><br><span class="line">s2 = new Child();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>问题<ul>
+<li><strong>所有实例共享原型对象中的所有属性和方法</strong>，共享是这种方法的最大优点，也是它的最大缺点。大多数情况下我们常常需要某些属性是子类特有的，而一些读取属性方法才需要共享。例如上例中的code数组，实际上两个实例引用的是同一个数组。<br><img src="https://raw.githubusercontent.com/wkd2015/Pic/master/blog/prototype_2.jpg" alt=""></li>
+</ul>
+</li>
+</ul>
+<h5 id="组合继承"><a href="#组合继承" class="headerlink" title="组合继承"></a>组合继承</h5><blockquote>
+<ul>
+<li>将原型链和借用构造函数的技术结合到一起的集成模式。</li>
+<li><strong>原理</strong>：使用原型链实现对共有的原型属性和方法的继承，通过call方法借用构造函数来实现对实例独有属性的继承。这样，即通过在原型上定义方法实现了函数复用，又能保证每个实例都有它的属性。</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function Parent () &#123;</span><br><span class="line">    this.name = &quot;parent&quot;;</span><br><span class="line">	this.code = [1,2,3];</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = function () &#123;</span><br><span class="line">	console.log(this.name);   </span><br><span class="line">&#125; </span><br><span class="line">function Child () &#123;</span><br><span class="line">	Parent.call(this);</span><br><span class="line">	this.type = &quot;child&quot;;</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = new Parent();</span><br><span class="line">var s1 = new Child();</span><br><span class="line">var s2 = new Child();</span><br><span class="line">s1.code === s2.code;  //false</span><br></pre></td></tr></table></figure>
+<ul>
+<li>问题<ul>
+<li>子类实例化的时候，父类构造函数被执行了两次<ul>
+<li>利用new操作符调用父类构造函数时执行一次</li>
+<li>在子类中借用call调用父类构造函数时执行一次</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="寄生组合式继承"><a href="#寄生组合式继承" class="headerlink" title="寄生组合式继承"></a>寄生组合式继承</h5><blockquote>
+<p>本质上来说，组合式继承中之所以在子类中借用父类构造函数，是为了实现对父类中属性的复制操作，而基于这一思想，我们可以通过变通实现与new操作符调用父类构造函数一样的效果，即<strong>浅拷贝</strong>。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function Parent () &#123;</span><br><span class="line">    this.name = &quot;parent&quot;;</span><br><span class="line">	this.code = [1,2,3];</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.say = function () &#123;</span><br><span class="line">	console.log(this.name);   </span><br><span class="line">&#125; </span><br><span class="line">function Child () &#123;</span><br><span class="line">	Parent.call(this);</span><br><span class="line">	this.type = &quot;child&quot;;</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = Object.create(Parent.prototype);</span><br><span class="line">Child.prototype.constructor = Child;</span><br><span class="line">var s1 = new Child();</span><br><span class="line">var s2 = new Child();</span><br></pre></td></tr></table></figure>
+<h5 id="ES6中Class的继承"><a href="#ES6中Class的继承" class="headerlink" title="ES6中Class的继承"></a>ES6中Class的继承</h5><blockquote>
+<p>ES6中引入的Class实质上是JavaScript现有的基于原型的继承的语法糖。类语法不会为JavaScript引入新的面向对象的继承模型。</p>
+</blockquote>
+<ul>
+<li>Class的继承方法是extend关键字  <ul>
+<li>extends关键字在类声明或类表达式中用于创建一个类作为另一个类的一个子类。</li>
+<li><strong>子类的构造函数必须执行一次super函数</strong>。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Animal &#123; </span><br><span class="line">    constructor(name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    speak() &#123;</span><br><span class="line">        console.log(this.name + &apos; makes a noise.&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Dog extends Animal &#123;</span><br><span class="line">    constructor() &#123;</span><br><span class="line">        super();</span><br><span class="line">    &#125;</span><br><span class="line">    speak() &#123;</span><br><span class="line">        console.log(this.name + &apos; barks.&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">var d = new Dog(&apos;Mitzie&apos;);</span><br><span class="line">d.speak();</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/ES6/" rel="tag">#ES6</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/31/同时发出多个JSONP请求失败的原因/" rel="next" title="同时发出多个JSONP请求失败的原因">
+                <i class="fa fa-chevron-left"></i> 同时发出多个JSONP请求失败的原因
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2018/04/15/JavaScript的继承机制/"
+           data-title="JavaScript中基于原型链的“继承”机制" data-url="http://yoursite.com/2018/04/15/JavaScript的继承机制/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/ico.jpg"
+               alt="wkd" />
+          <p class="site-author-name" itemprop="name">wkd</p>
+          <p class="site-description motion-element" itemprop="description">You got a dream, you gotta protect it.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wkd2015" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://wkd2015.github.io/Demo/" target="_blank" title="Demo">
+                  
+                    <i class="fa fa-fw fa-file"></i>
+                  
+                  Demo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#传统面向对象语言中的类"><span class="nav-number">1.</span> <span class="nav-text">传统面向对象语言中的类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类-继承"><span class="nav-number">1.1.</span> <span class="nav-text">类/继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类的多态性"><span class="nav-number">1.2.</span> <span class="nav-text">类的多态性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类的行为本质"><span class="nav-number">1.3.</span> <span class="nav-text">类的行为本质</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JavaScript中的“类”"><span class="nav-number">2.</span> <span class="nav-text">JavaScript中的“类”</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原型"><span class="nav-number">2.1.</span> <span class="nav-text">原型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Tips"><span class="nav-number">2.1.1.</span> <span class="nav-text">Tips</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#原型链"><span class="nav-number">2.2.</span> <span class="nav-text">原型链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#“继承”"><span class="nav-number">2.3.</span> <span class="nav-text">“继承”</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#构造函数继承"><span class="nav-number">2.3.1.</span> <span class="nav-text">构造函数继承</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#原型链继承"><span class="nav-number">2.3.2.</span> <span class="nav-text">原型链继承</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#组合继承"><span class="nav-number">2.3.3.</span> <span class="nav-text">组合继承</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#寄生组合式继承"><span class="nav-number">2.3.4.</span> <span class="nav-text">寄生组合式继承</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ES6中Class的继承"><span class="nav-number">2.3.5.</span> <span class="nav-text">ES6中Class的继承</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wkd</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wkd2015"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

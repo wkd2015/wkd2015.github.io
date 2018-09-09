@@ -1,0 +1,7 @@
+node_modules/
+db.json
+*.log
+public/
+.deploy*/
+Thumbs.db
+.idea/

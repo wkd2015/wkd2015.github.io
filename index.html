@@ -249,6 +249,267 @@
             
               
                 
+                <a class="post-title-link" href="/2020/02/23/浅谈前端安全/" itemprop="url">
+                  浅谈前端安全
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2020-02-23T23:07:53+08:00" content="2020-02-23">
+              2020-02-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/02/23/浅谈前端安全/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/02/23/浅谈前端安全/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="浅谈前端安全"><a href="#浅谈前端安全" class="headerlink" title="浅谈前端安全"></a>浅谈前端安全</h2><h3 id="前端安全的范围"><a href="#前端安全的范围" class="headerlink" title="前端安全的范围"></a>前端安全的范围</h3><p>将Web安全问题按照发生的区域来分类，发生在浏览器、Web页面中的安全问题就是前端安全问题。</p>
+<h3 id="同源策略"><a href="#同源策略" class="headerlink" title="同源策略"></a>同源策略</h3><p>同源：URL由协议、域名、端口和路径组成，如果两个URL的协议、域名和端口相同，则表示他们同源。</p>
+<table>
+<thead>
+<tr>
+<th>URL</th>
+<th>是否同源</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://test.test.com/dir2/other.html" target="_blank" rel="external">http://test.test.com/dir2/other.html</a></td>
+<td>是</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://test.test.com/dir/test.html" target="_blank" rel="external">http://test.test.com/dir/test.html</a></td>
+<td>是</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://test.test.com/test.html" target="_blank" rel="external">https://test.test.com/test.html</a></td>
+<td>否</td>
+<td>协议不同</td>
+</tr>
+<tr>
+<td><a href="http://test.test.com:8080/test.html" target="_blank" rel="external">http://test.test.com:8080/test.html</a></td>
+<td>否</td>
+<td>端口不同</td>
+</tr>
+<tr>
+<td><a href="http://test123.test.com/test.html" target="_blank" rel="external">http://test123.test.com/test.html</a></td>
+<td>否</td>
+<td>域名不同</td>
+</tr>
+</tbody>
+</table>
+<p>浏览器的同源策略，限制了来自不同源的<code>document</code>或脚本，对当前<code>document</code>读取或设置某些属性。从一个域上加载的脚本不允许访问另外一个域的文档属性。</p>
+<p>如果没有同源限制存在，浏览器中的cookie等其他数据可以任意读取，不同域下DOM可以任意操作，ajax可以任意请求。如果浏览了恶意网站那么就会泄漏这些隐私数据</p>
+<p>在浏览器中，<code>&lt;script&gt;</code>、<code>&lt;img&gt;</code>、<code>&lt;iframe&gt;</code>、<code>&lt;link&gt;</code>等标签都可以加载跨域资源，而不受同源限制。</p>
+<blockquote>
+<p>这些带<code>src</code>属性的标签每次加载时，实际上是由浏览器发起了一次GET请求。不同于<code>XMLHttpRequest</code>的是，通过<code>src</code>属性加载的资源，浏览器限制了JavaScript的权限，使其不能读、写返回的内容。</p>
+</blockquote>
+<hr>
+<h3 id="跨站脚本攻击（XSS）"><a href="#跨站脚本攻击（XSS）" class="headerlink" title="跨站脚本攻击（XSS）"></a>跨站脚本攻击（XSS）</h3><p>XSS，即<code>Cross Site Script</code>（跨站脚本攻击）；为了和层叠样式表(<code>Cascading Style Sheet</code>)做出区分，在安全领域叫做 XSS。</p>
+<p>XSS 攻击是指攻击者在网站上注入恶意的客户端代码，利用恶意脚本对客户端网页进行篡改，从而在用户浏览网页时，对用户浏览器进行控制或者获取用户隐私数据的一种攻击方式。有很多种方式进行 XSS 攻击，但它们的共同点为：将一些隐私数据像<code>cookie</code>、<code>session</code>发送给攻击者，将受害者重定向到一个由攻击者控制的网站，在受害者的机器上进行一些恶意操作。</p>
+<h4 id="攻击方式"><a href="#攻击方式" class="headerlink" title="攻击方式"></a>攻击方式</h4><h5 id="反射型XSS"><a href="#反射型XSS" class="headerlink" title="反射型XSS"></a>反射型XSS</h5><p>恶意代码并没有保存在目标网站，通过引诱用户点击一个链接到目标网站的恶意链接来实施攻击。</p>
+<p>攻击流程：</p>
+<ol>
+<li>A给B发送一个恶意构造的URL</li>
+<li>B点击URL后跳转到具有漏洞的HTML页面</li>
+<li>HTML页面在B浏览器中执行JavaScript，可以执行B所具有权限下的命令</li>
+</ol>
+<h5 id="存储型XSS"><a href="#存储型XSS" class="headerlink" title="存储型XSS"></a>存储型XSS</h5><p>恶意代码被保存到目标网站的服务器中，这种攻击具有较强的稳定性和持久性，比较常见场景是在博客，论坛、OA、CRM等社交网站上。</p>
+<p>攻击流程：</p>
+<ol>
+<li>攻击者提交一条包含XSS代码的留言或其他数据到数据库</li>
+<li>当目标用户查询时，XSS的内容会从服务器解析之后加载出来</li>
+<li>浏览器将恶意代码当作正常脚本解析执行，可以执行浏览器所具有权限下的命令</li>
+</ol>
+<h5 id="DOM-Based-XSS"><a href="#DOM-Based-XSS" class="headerlink" title="DOM Based XSS"></a>DOM Based XSS</h5><p>基于DOM的XSS攻击是指通过恶意脚本修改页面的DOM结构，是纯粹发生在客户端的攻击。DOM型XSS攻击中，取出和执行恶意代码由浏览器端完成，属于前端JavaScript自身的安全漏洞。</p>
+<p>攻击流程：</p>
+<ol>
+<li>A给B发送一个恶意构造的URL</li>
+<li>B点击URL后HTML页面获取攻击性的代码，如通过<code>location.hash</code>获取的参数等</li>
+<li>攻击性代码当作HTML代码写入页面</li>
+<li>HTML页面在B浏览器中执行JavaScript，可以执行B所具有权限下的命令</li>
+</ol>
+<h4 id="防范手段"><a href="#防范手段" class="headerlink" title="防范手段"></a>防范手段</h4><ul>
+<li><p>输入检查</p>
+<p>在源头控制，把用户输入的一些不合法的东西都过滤或者编码掉，从而保证安全性。如移除用户提交的的DOM属性如<code>onerror</code>，移除用户上传的节点，<code>&lt;iframe&gt;</code>，<code>&lt;script&gt;</code>，<code>&lt;a&gt;</code>节点等。</p>
+<p>一般业务中是对客户端和服务端中同时进行输入检查。</p>
+</li>
+<li><p>输出检查</p>
+<p>利用转义库对 HTML 模板各处节点进行充分的转义。</p>
+</li>
+<li><p>使用<code>HttpOnly</code></p>
+<p>通过设置<code>HttpOnly</code>，浏览器可以禁止页面的JavaScript访问带有<code>HttpOnly</code>属性的<code>Cookie</code>。它的目的并非是为了对抗XSS，而是对抗XSS之后的<code>Cookie</code>劫持攻击。</p>
+<blockquote>
+<p>Cookie的使用过程：</p>
+<ol>
+<li>浏览器向服务器发起请求，此时没有Cookie</li>
+<li>服务器返回Set-Cookie头，向浏览器写入Cookie</li>
+<li>在Cookie到期之前，浏览器访问该域下的所有页面，都将发送该Cookie</li>
+</ol>
+</blockquote>
+<p><code>HttpOnly</code>是在<code>Set-Cookie</code>的时候进行标记的</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie： &lt;name&gt;=&lt;value&gt;[; &lt;Max-Age&gt;=&lt;age&gt;]</span><br><span class="line">[; expires=&lt;date&gt;][; domain=&lt;domain_name&gt;]</span><br><span class="line">[; path=&lt;some_path&gt;][; secure][; HttpOnly]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>输入内容长度限制</p>
+<p>对输入的内容限定合理长度，可以增加XSS攻击的难度</p>
+</li>
+<li><p>避免拼接HTML或者使用内联事件</p>
+<p>前端使用拼接HTML或者内联事件的情况比较危险，建议替换为<code>createElement</code>、<code>setAttribute</code>及<code>addEventListener</code>的实现方法，或者采用成熟的框架进行渲染，如<code>Vue/React</code>等</p>
+</li>
+<li><p>开启CSP网页安全政策（<code>Content Security Policy</code>）</p>
+<p>一种由开发者定义的安全性政策申明，通过CSP所约束的责任指定可信的内容来源，（内容可以是指脚本、图片、style 等远程资源）。</p>
+<p>CSP 的实质就是白名单制度，开发者明确告诉客户端，哪些外部资源可以加载和执行，等同于提供白名单。</p>
+<p>开启方式：</p>
+<ul>
+<li>通过HTTP头信息的<code>Content-Security-Policy</code>字段</li>
+<li>在网页中设置<code>&lt;meta&gt;</code>标签</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Security-Policy"</span> <span class="attr">content</span>=<span class="string">"script-src 'self'; object-src 'none'; style-src cdn.example.org third-party.org; child-src https:"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h3 id="跨站点请求伪造（CSRF）"><a href="#跨站点请求伪造（CSRF）" class="headerlink" title="跨站点请求伪造（CSRF）"></a>跨站点请求伪造（CSRF）</h3><p>跨站请求伪造攻击，原理就是攻击者构造出一个后端请求地址，诱导用户点击或者通过某些途径自动发起请求。利用受害者在被攻击网站已经获取的注册凭证，绕过后台的用户验证，冒充用户执行某些操作。</p>
+<h4 id="攻击流程"><a href="#攻击流程" class="headerlink" title="攻击流程"></a>攻击流程</h4><ol>
+<li>被攻击者登录A站点，并保留了登陆凭证</li>
+<li>攻击者诱使被攻击者访问B站点</li>
+<li>B站点向A站点发起请求，浏览器会默认携带A站点的Cookie</li>
+<li>A站点接收请求后会对其进行验证，而且会误认为是被攻击者发起的请求，同时以被攻击者的身份执行相应的操作</li>
+</ol>
+<h4 id="攻击方式-1"><a href="#攻击方式-1" class="headerlink" title="攻击方式"></a>攻击方式</h4><ul>
+<li><p>GET类型</p>
+<p>一般是利用<code>&lt;img&gt;</code>标签等发起</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"http://test.com/test?test=test"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在被攻击者访问页面时，浏览器会自动向<code>src</code>指向的地址发出请求</p>
+</li>
+<li><p>POST类型</p>
+<p>通常是构造一个自动提交的表单在页面上，模拟用户完成了一次POST操作</p>
+</li>
+<li><p>链接类型</p>
+<p>通常是需要诱骗用户点击才会触发</p>
+</li>
+</ul>
+<h4 id="攻击特点"><a href="#攻击特点" class="headerlink" title="攻击特点"></a>攻击特点</h4><ul>
+<li>攻击一般发生在第三方站点，被攻击站点无法防止攻击发生</li>
+<li>攻击手段为冒充受害者提交操作，而非直接窃取数据</li>
+<li>攻击过程中攻击者并不能获取到用户的登陆凭证，而只是冒充</li>
+</ul>
+<h4 id="防范手段-1"><a href="#防范手段-1" class="headerlink" title="防范手段"></a>防范手段</h4><ul>
+<li><p>验证码</p>
+<p>通过增加网站A的验证手段，例如增加图形验证码或短信验证码等等，只有通过验证的请求才算合法。但是这种方案拥有两个局限性，一个是增加开发成本，另外一个是降低用户体验。</p>
+</li>
+<li><p>验证<code>Referer</code></p>
+<p>根据 HTTP 协议，在 HTTP 头中有一个字段叫<code>Referer</code>，它记录了该 HTTP 请求的来源地址。通过验证<code>Referer</code>，可以检查请求是否来自合法的”源”。</p>
+</li>
+<li><p>验证<code>Token</code></p>
+<p>服务端随机生成token，保存在服务端session中，同时保存到客户端中，客户端发送请求时，把token带到HTTP请求头或参数中，服务端接收到请求，验证请求中的token与session中的是否一致。如果请求中没有 token 或者 token 内容不正确，则认为可能是 CSRF 攻击而拒绝该请求。</p>
+</li>
+</ul>
+<hr>
+<h3 id="点击劫持"><a href="#点击劫持" class="headerlink" title="点击劫持"></a>点击劫持</h3><p>在一个Web页面下隐藏了一个透明的<code>iframe</code>（<code>opacity：0</code>），用外层假页面诱导用户点击，实际上是在隐藏的frame上触发了点击事件进行一些用户不知情的操作。</p>
+<h4 id="攻击流程-1"><a href="#攻击流程-1" class="headerlink" title="攻击流程"></a>攻击流程</h4><ol>
+<li>攻击者构造一个诱导用户点击的内容，将页面放入到<code>&lt;iframe&gt;</code></li>
+<li>利用<code>z-index</code>和<code>opacity</code>将<code>&lt;iframe&gt;</code>叠加到实际页面上方并透明化</li>
+<li>受害者访问到欺骗页面后，实际看到的是诱使点击的内容，点击之后则是有害页面</li>
+</ol>
+<h4 id="攻击方式-2"><a href="#攻击方式-2" class="headerlink" title="攻击方式"></a>攻击方式</h4><ul>
+<li>盗取用户资金</li>
+<li>获得用户敏感信息</li>
+<li>与XSS或者CSRF相配合，诱骗用户点击恶意链接</li>
+</ul>
+<h4 id="防范手段-2"><a href="#防范手段-2" class="headerlink" title="防范手段"></a>防范手段</h4><ul>
+<li><p>设置<code>X-FRAME-OPTIONS</code></p>
+<p>服务器端可设置HTTP头<code>X-Frame-Options：DENY</code>来让浏览器主动禁止<code>&lt;iframe&gt;</code>内嵌，但是这种方式需要结合HTTPS来实现，因为HTTP不可靠，容易被窃听篡改内容</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/04/15/JavaScript的继承机制/" itemprop="url">
                   JavaScript中基于原型链的“继承”机制
                 </a>
@@ -1181,112 +1442,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/15/IFE栅格化布局任务相关知识/" itemprop="url">
-                  IFE栅格化布局任务相关知识
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-15T19:57:35+08:00" content="2016-06-15">
-              2016-06-15
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/15/IFE栅格化布局任务相关知识/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/15/IFE栅格化布局任务相关知识/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路:"></a>实现思路:</h4><ol>
-<li>box-sizing属性<br>将border和padding计算入width之内,消除两者对于盒子宽度计算的影响.</li>
-<li>@media媒体查询<br>根据查询不同浏览器宽度调用不同样式</li>
-<li>calc方法<br>动态计算div的width
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/06/15/IFE栅格化布局任务相关知识/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1332,7 +1487,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1342,7 +1497,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1399,7 +1554,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

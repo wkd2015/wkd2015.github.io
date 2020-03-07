@@ -1,0 +1,745 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Satisfy:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CSS,JavaScript,DOM,布局," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言在Web相关的问题中，从输入URL到整个页面加载展示到用户面前这个问题是绕不开的，它主要涉及到两个步骤：
+
+网络请求
+页面渲染
+解析HTML文件，构建DOM树
+解析CSS文件，构建CSSOM树
+将DOM树和CSSOM树合并，生成渲染树
+计算渲染树的布局
+将布局渲染到屏幕上
+
+
+
+本文主要介绍页面渲染部分。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从输入URL到页面加载 —— 页面加载篇">
+<meta property="og:url" content="http://yoursite.com/2020/03/07/从输入URL到页面加载-页面加载篇/index.html">
+<meta property="og:site_name" content="Wkd's Blog">
+<meta property="og:description" content="前言在Web相关的问题中，从输入URL到整个页面加载展示到用户面前这个问题是绕不开的，它主要涉及到两个步骤：
+
+网络请求
+页面渲染
+解析HTML文件，构建DOM树
+解析CSS文件，构建CSSOM树
+将DOM树和CSSOM树合并，生成渲染树
+计算渲染树的布局
+将布局渲染到屏幕上
+
+
+
+本文主要介绍页面渲染部分。">
+<meta property="og:image" content="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=902909470,2729350125&fm=26&gp=0.jpg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190604014039314.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3NjUzNDQ5,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://pic.downk.cc/item/5e636fbd98271cb2b8d5b737.jpg">
+<meta property="og:image" content="https://pic.downk.cc/item/5e635f5998271cb2b8ccc321.jpg">
+<meta property="og:image" content="https://pic.downk.cc/item/5e636b6498271cb2b8d348b5.jpg">
+<meta property="og:updated_time" content="2020-03-07T10:38:35.884Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从输入URL到页面加载 —— 页面加载篇">
+<meta name="twitter:description" content="前言在Web相关的问题中，从输入URL到整个页面加载展示到用户面前这个问题是绕不开的，它主要涉及到两个步骤：
+
+网络请求
+页面渲染
+解析HTML文件，构建DOM树
+解析CSS文件，构建CSSOM树
+将DOM树和CSSOM树合并，生成渲染树
+计算渲染树的布局
+将布局渲染到屏幕上
+
+
+
+本文主要介绍页面渲染部分。">
+<meta name="twitter:image" content="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=902909470,2729350125&fm=26&gp=0.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 从输入URL到页面加载 —— 页面加载篇 | Wkd's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Wkd's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Keep Moving!</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                从输入URL到页面加载 —— 页面加载篇
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2020-03-07T18:33:07+08:00" content="2020-03-07">
+              2020-03-07
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/03/07/从输入URL到页面加载-页面加载篇/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/03/07/从输入URL到页面加载-页面加载篇/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在Web相关的问题中，从输入URL到整个页面加载展示到用户面前这个问题是绕不开的，它主要涉及到两个步骤：</p>
+<ol>
+<li>网络请求</li>
+<li>页面渲染<ol>
+<li>解析HTML文件，构建DOM树</li>
+<li>解析CSS文件，构建CSSOM树</li>
+<li>将DOM树和CSSOM树合并，生成渲染树</li>
+<li>计算渲染树的布局</li>
+<li>将布局渲染到屏幕上</li>
+</ol>
+</li>
+</ol>
+<p>本文主要介绍页面渲染部分。</p>
+<a id="more"></a>
+<hr>
+<h2 id="构建DOM树"><a href="#构建DOM树" class="headerlink" title="构建DOM树"></a>构建DOM树</h2><h3 id="什么是DOM树？"><a href="#什么是DOM树？" class="headerlink" title="什么是DOM树？"></a>什么是DOM树？</h3><blockquote>
+<p>DOM模型：HTML和XML文档的编程接口。它提供了对文档的结构化的表述，并定义了一种方式可以使从程序中对该结构进行访问，从而改变文档的结构，样式和内容。</p>
+</blockquote>
+<p>DOM 将文档解析为一个由节点和对象（包含属性和方法的对象）组成的结构集合。简言之，它会将web页面和脚本或程序语言连接起来。</p>
+<p>DOM的结构是由各种子节点组成的，那么以<code>HTMLDocument</code>为根节点，其余节点为子节点，那么组织成的树型数据结构的表示就是DOM树。</p>
+<p><img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=902909470,2729350125&amp;fm=26&amp;gp=0.jpg" alt=""></p>
+<h3 id="利用HTML解释器构建DOM树"><a href="#利用HTML解释器构建DOM树" class="headerlink" title="利用HTML解释器构建DOM树"></a>利用HTML解释器构建DOM树</h3><p>HTML解释器会将从网络或者本地获取的HTML文件解析成DOM树。需要经过以下几个步骤：</p>
+<ol>
+<li>将字节流转换成字符流，根据不同的编码进行解码</li>
+<li>通过词法分析将字符流解析为一个个词语（Token）。这个过程会跳过空格与换行内容。词法分析由<code>HTMLTokenizer</code>完成。</li>
+<li>使用<code>XSSAuditor</code>来进行词语验证及过滤，主要是出于安全方面的考虑</li>
+<li>在经过<code>XSSAuditor</code>过滤之后，由解释器调用方法构建DOM节点</li>
+<li>从上面的DOM节点构建出来DOM树，包括创建元素节点的属性节点工作</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/20190604014039314.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3NjUzNDQ5,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<hr>
+<h2 id="构建CSSOM"><a href="#构建CSSOM" class="headerlink" title="构建CSSOM"></a>构建CSSOM</h2><h3 id="什么是CSSOM？"><a href="#什么是CSSOM？" class="headerlink" title="什么是CSSOM？"></a>什么是CSSOM？</h3><p>CSSOM（CSS对象模型）定义了媒体查询、选择器以及CSS本身的一系列API（包括一般的解析和序列化规则）。它是对附在DOM结构树上的样式的表达，与DOM树的呈现方式相似，只是每个节点都会带上样式属性，包括明确定义和隐式继承的样式。</p>
+<p><img src="https://pic.downk.cc/item/5e636fbd98271cb2b8d5b737.jpg" alt=""></p>
+<p>CSS是一种渲染阻塞资源(render blocking resource)，它<strong>需要完全被解析完毕之后才能进入生成渲染树的环节</strong>。</p>
+<p>CSS并不像HTML那样能执行部分并显示，因为CSS具有继承属性， 后面定义的样式会覆盖或者修改前面的样式。如果我们只使用样式表中部分解析好的样式，我们可能会得到错误的页面效果。所以，我们只能等待CSS完全解析之后，才能进入关键渲染路径的下一环节。</p>
+<p>在CSSOM构建完毕之前，页面会一直处于白屏状态，这也是为什么建议将CSS引用及<code>&lt;style&gt;</code>标签放在<code>head</code>中，通过优先解析CSS，从而提高用户体验。</p>
+<h3 id="CSS解释器"><a href="#CSS解释器" class="headerlink" title="CSS解释器"></a>CSS解释器</h3><p>与处理HTML的逻辑一样，CSS解释器做的工作也是将收到的CSS文件转换成浏览器能够理解处理的结构：</p>
+<ol>
+<li>将字节流转换成字符流</li>
+<li>接着将字符流转换成词语（Token）</li>
+<li>将Token转换成相应的节点</li>
+<li>最后组装成CSSOM树</li>
+</ol>
+<p><img src="https://pic.downk.cc/item/5e635f5998271cb2b8ccc321.jpg" alt=""></p>
+<h3 id="阻塞页面渲染"><a href="#阻塞页面渲染" class="headerlink" title="阻塞页面渲染"></a>阻塞页面渲染</h3><p>CSSOM树在构建过程中会<strong>阻塞页面的渲染，但是不会阻塞DOM的解析</strong>。</p>
+<p>因为DOM树与CSSOM树的解析生成是独立的，在生成过程中无需阻塞DOM解析。</p>
+<p>对于页面渲染来说，如果CSSOM树不进行阻塞，那会使页面首先呈现出一个版本，在浏览器加载完毕CSSOM树渲染后又变更了一个版本，用户体验很差，而且反复渲染的成本也很高。</p>
+<hr>
+<h2 id="JavaScript解析"><a href="#JavaScript解析" class="headerlink" title="JavaScript解析"></a>JavaScript解析</h2><h3 id="阻塞DOM的解析"><a href="#阻塞DOM的解析" class="headerlink" title="阻塞DOM的解析"></a>阻塞DOM的解析</h3><p>JavaScript可以操作DOM来修改DOM结构，因此在遇到外链脚本或者<code>script</code>标签时，需要等待这部分代码执行完成才会继续解析DOM。</p>
+<p>一般现在的浏览器对这部分有做一些优化，在脚本阻塞时会继续下载其他资源，但是解析DOM的过程依然是阻塞的，只是优化了下载资源这个步骤。因此一般是建议将<code>script</code>标签放在页面底部。</p>
+<p>同时也可以通过增加<code>defer</code>属性来改变脚本的执行特性，使其延迟执行：</p>
+<ol>
+<li>浏览器下载HTML页面，边下载边解析</li>
+<li>解析过程中发现带有<code>defer</code>属性的<code>script</code>标签</li>
+<li>网页继续下载解析，同时启动<code>script</code>开始下载外部脚本</li>
+<li>等待页面渲染完成，执行下载的脚本</li>
+</ol>
+<h2 id="构建渲染树"><a href="#构建渲染树" class="headerlink" title="构建渲染树"></a>构建渲染树</h2><h3 id="什么是渲染树？"><a href="#什么是渲染树？" class="headerlink" title="什么是渲染树？"></a>什么是渲染树？</h3><p>当DOM树与CSSOM树构建完成后，浏览器会将两者进行结合，生成渲染树，这棵树包含了页面所有可见元素及其渲染信息。</p>
+<p><img src="https://pic.downk.cc/item/5e636b6498271cb2b8d348b5.jpg" alt=""></p>
+<hr>
+<h2 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h2><p>渲染树生成之后，浏览器会根据渲染树中的样式以及设备的屏幕尺寸，来计算每个元素的坐标和大小。</p>
+<h3 id="回流"><a href="#回流" class="headerlink" title="回流"></a>回流</h3><p>如果页面元素的结构、位置或者尺寸发生了变化，那么就需要重新计算样式并构建渲染树。回流的性能成本开销是比较高的，一般开发时都需要尽量避免页面频繁回流。</p>
+<p><strong>引起回流的操作：</strong></p>
+<ul>
+<li>页面初始化渲染</li>
+<li>删除或者新增某个DOM节点</li>
+<li>修改页面元素的尺寸值</li>
+<li>改变字体的大小</li>
+<li>获取某些属性值也会造成回流：<ul>
+<li><code>offsetTop</code>等</li>
+<li><code>scrollTop</code>等</li>
+<li><code>clientTop</code>等</li>
+<li><code>width</code>、<code>height</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="绘制"><a href="#绘制" class="headerlink" title="绘制"></a>绘制</h2><p>计算最终的渲染信息，在实际的渲染过程中浏览器会在尽可能多的层上去渲染，类似于Photoshop里图层的概念。并将每个渲染层进行合并，最终生成一层渲染画面。在绘制过程中，每个层独立渲染，并不关心与其他层之间的关系。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag">#CSS</a>
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/DOM/" rel="tag">#DOM</a>
+          
+            <a href="/tags/布局/" rel="tag">#布局</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/27/从输入URL到页面加载-——-网络请求篇/" rel="next" title="从输入URL到页面加载 —— 网络请求篇">
+                <i class="fa fa-chevron-left"></i> 从输入URL到页面加载 —— 网络请求篇
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2020/03/07/从输入URL到页面加载-页面加载篇/"
+           data-title="从输入URL到页面加载 —— 页面加载篇" data-url="http://yoursite.com/2020/03/07/从输入URL到页面加载-页面加载篇/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/ico.jpg"
+               alt="wkd" />
+          <p class="site-author-name" itemprop="name">wkd</p>
+          <p class="site-description motion-element" itemprop="description">You got a dream, you gotta protect it.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">19</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wkd2015" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://wkd2015.github.io/Demo/" target="_blank" title="Demo">
+                  
+                    <i class="fa fa-fw fa-file"></i>
+                  
+                  Demo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建DOM树"><span class="nav-number">2.</span> <span class="nav-text">构建DOM树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是DOM树？"><span class="nav-number">2.1.</span> <span class="nav-text">什么是DOM树？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用HTML解释器构建DOM树"><span class="nav-number">2.2.</span> <span class="nav-text">利用HTML解释器构建DOM树</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建CSSOM"><span class="nav-number">3.</span> <span class="nav-text">构建CSSOM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是CSSOM？"><span class="nav-number">3.1.</span> <span class="nav-text">什么是CSSOM？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS解释器"><span class="nav-number">3.2.</span> <span class="nav-text">CSS解释器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阻塞页面渲染"><span class="nav-number">3.3.</span> <span class="nav-text">阻塞页面渲染</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript解析"><span class="nav-number">4.</span> <span class="nav-text">JavaScript解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#阻塞DOM的解析"><span class="nav-number">4.1.</span> <span class="nav-text">阻塞DOM的解析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建渲染树"><span class="nav-number">5.</span> <span class="nav-text">构建渲染树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是渲染树？"><span class="nav-number">5.1.</span> <span class="nav-text">什么是渲染树？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#布局"><span class="nav-number">6.</span> <span class="nav-text">布局</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#回流"><span class="nav-number">6.1.</span> <span class="nav-text">回流</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绘制"><span class="nav-number">7.</span> <span class="nav-text">绘制</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wkd</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wkd2015"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

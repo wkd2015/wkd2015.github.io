@@ -90,22 +90,64 @@
 
 
 
-<meta name="description" content="前言在Web相关的问题中，从输入URL到整个页面加载展示到用户面前这个问题是绕不开的，它主要涉及到网络请求与客户端渲染两个步骤">
+<meta name="description" content="前言在Web相关的问题中，从输入URL到整个页面加载展示到用户面前这个问题是绕不开的，它主要涉及到网络请求与客户端渲染两个步骤
+
+网络请求
+DNS解析
+TCP连接建立
+SSL/TLS隧道建立(HTTPS)
+发送HTTP请求
+返回HTTP报文
+断开SSL/TLS隧道
+关闭TCP连接
+
+
+客户端渲染
+
+本文主要介绍一下其中的网络请求部分。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从输入URL到页面加载 —— 网络请求篇">
 <meta property="og:url" content="http://yoursite.com/2020/02/27/从输入URL到页面加载-——-网络请求篇/index.html">
 <meta property="og:site_name" content="Wkd's Blog">
-<meta property="og:description" content="前言在Web相关的问题中，从输入URL到整个页面加载展示到用户面前这个问题是绕不开的，它主要涉及到网络请求与客户端渲染两个步骤">
+<meta property="og:description" content="前言在Web相关的问题中，从输入URL到整个页面加载展示到用户面前这个问题是绕不开的，它主要涉及到网络请求与客户端渲染两个步骤
+
+网络请求
+DNS解析
+TCP连接建立
+SSL/TLS隧道建立(HTTPS)
+发送HTTP请求
+返回HTTP报文
+断开SSL/TLS隧道
+关闭TCP连接
+
+
+客户端渲染
+
+本文主要介绍一下其中的网络请求部分。">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/27/170871ae6b6f6dcd?w=680&h=535&f=png&s=96851">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/27/170871ade6816e4f?w=463&h=237&f=png&s=84054">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/27/170871ade69355d1?w=470&h=609&f=png&s=44270">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/27/170871ade6e84487?w=556&h=531&f=png&s=35398">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/27/170871ade748c366?w=680&h=620&f=png&s=270829">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/2/27/170871ade66e44e8?w=733&h=385&f=jpeg&s=13963">
-<meta property="og:updated_time" content="2020-02-27T15:48:56.824Z">
+<meta property="og:updated_time" content="2020-03-07T10:37:55.756Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从输入URL到页面加载 —— 网络请求篇">
-<meta name="twitter:description" content="前言在Web相关的问题中，从输入URL到整个页面加载展示到用户面前这个问题是绕不开的，它主要涉及到网络请求与客户端渲染两个步骤">
+<meta name="twitter:description" content="前言在Web相关的问题中，从输入URL到整个页面加载展示到用户面前这个问题是绕不开的，它主要涉及到网络请求与客户端渲染两个步骤
+
+网络请求
+DNS解析
+TCP连接建立
+SSL/TLS隧道建立(HTTPS)
+发送HTTP请求
+返回HTTP报文
+断开SSL/TLS隧道
+关闭TCP连接
+
+
+客户端渲染
+
+本文主要介绍一下其中的网络请求部分。">
 <meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2020/2/27/170871ae6b6f6dcd?w=680&h=535&f=png&s=96851">
 
 
@@ -302,7 +344,6 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在Web相关的问题中，从输入URL到整个页面加载展示到用户面前这个问题是绕不开的，它主要涉及到网络请求与客户端渲染两个步骤</p>
-<a id="more"></a>
 <ol>
 <li>网络请求<ol>
 <li>DNS解析</li>
@@ -317,6 +358,7 @@
 <li>客户端渲染</li>
 </ol>
 <p>本文主要介绍一下其中的网络请求部分。</p>
+<a id="more"></a>
 <hr>
 <h2 id="DNS解析"><a href="#DNS解析" class="headerlink" title="DNS解析"></a>DNS解析</h2><blockquote>
 <p>相比较于IP地址，以字符串来表示的域名更加符合人类的记忆习惯，因此用户通常使用域名来访问资源，而非IP地址。DNS提供域名与IP的映射服务，解析用户输入的域名为真实IP地址进行访问。</p>
@@ -473,6 +515,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2020/03/07/从输入URL到页面加载-页面加载篇/" rel="prev" title="从输入URL到页面加载 —— 页面加载篇">
+                从输入URL到页面加载 —— 页面加载篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -543,7 +589,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -553,7 +599,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

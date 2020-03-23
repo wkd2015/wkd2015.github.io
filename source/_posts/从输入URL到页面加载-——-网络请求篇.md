@@ -8,8 +8,6 @@ tags: [JavaScript,HTTP,缓存,HTTPS,TCP/IP]
 
 在Web相关的问题中，从输入URL到整个页面加载展示到用户面前这个问题是绕不开的，它主要涉及到网络请求与客户端渲染两个步骤
 
-<!-- more -->
-
 1. 网络请求
    1. DNS解析
    2. TCP连接建立
@@ -21,6 +19,8 @@ tags: [JavaScript,HTTP,缓存,HTTPS,TCP/IP]
 2. 客户端渲染
 
 本文主要介绍一下其中的网络请求部分。
+
+<!-- more -->
 
 ------
 
